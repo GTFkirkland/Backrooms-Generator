@@ -1,10 +1,30 @@
 #closed
-def generateRoom(topOpen, rightOpen, downOpen, leftOpen):
+def drawRoom(topOpen, rightOpen, downOpen, leftOpen, player):
     room = ("""""")
     if topOpen == True:
-        room += "┎----┒"
-    room = ["""┎----┒
-               |    |
-               ┖----┚"""]
+        room += "┏━ ━┓"
+    else:
+        room += "┏━━━┓"
+    
+    if leftOpen == True:
+        room += "\n⠀  "
+    else:
+        room += "\n┃  "
+    
+    if rightOpen == True:
+        room += "  ⠀"
+    else:
+        room += " ┃"
 
-generateRoom(True, False, False, False)
+    if downOpen == True:
+        room += "\n┗━ ━┛"
+    else:
+        room += "\n┗━━━┛"
+
+    #room = ["""┎───┒
+    #           ┃   ┃
+    #           ┖───┚"""]
+    print(room)
+
+drawRoom(True, True, True, True, 1)
+drawRoom(False, False, False, False, 1)
