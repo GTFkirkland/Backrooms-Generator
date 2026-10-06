@@ -96,13 +96,12 @@ def ranRoom(map, coord):
         if True in room:
             roomCheck = True
         else:
-            for i in range(0,len(roomAvail)):
-                if numAvail == 1:
-                    if i == True:
-                        room[i] = True
-                else:
-                    None #FINISH
-
+            if numAvail == 1:
+                room[roomAvail.index(True)] == True
+            elif numAvail == 2:
+                roomCheck = True
+            else:
+                roomCheck = True
 
     #finish
     return room
