@@ -1,10 +1,10 @@
 #imports
 import random as ran
 import time as time
-from rooms import ranBool, ranRoom
+from rooms import ranRoom
 from ui import nextFrame
 #map generation
-size = 6
+size = 500
 map = []
 for i in range(size):
     map.append([])
@@ -16,5 +16,5 @@ for k in range(len(map)): #collumn
         #x = input(f"k:{k} | i:{i}") #debug
 
 #play game
-player = {"x":size, "y":size}
+player = {"x":0, "y":0}
 nextFrame(map[player["y"]][player["x"]][0],map[player["y"]][player["x"]][1],map[player["y"]][player["x"]][2],map[player["y"]][player["x"]][3])

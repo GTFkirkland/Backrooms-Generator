@@ -1,6 +1,13 @@
 #imports
 import random as ran
-
+#colors and symbals
+reset = '\033[0m'
+red = '\033[31m' 
+green = '\033[32m' 
+yellow = '\033[33m' 
+blue = '\033[34m' 
+cyan = '\033[36m' 
+bold = '\033[1m'
 #functions
 def drawRoom(topOpen, rightOpen, downOpen, leftOpen, spaces, border):
     room = ("""""")
@@ -10,9 +17,9 @@ def drawRoom(topOpen, rightOpen, downOpen, leftOpen, spaces, border):
         room += f"{border}{spaces}┏━━━━┓{spaces}{border}"
     
     if leftOpen == True:
-        room += f"\n{border}{spaces}⠀  "
+        room += f"\n{border}{spaces}⠀ {bold}{green}▢{reset}"
     else:
-        room += f"\n{border}{spaces}┃  "
+        room += f"\n{border}{spaces}┃ {bold}{green}▢{reset}"
     
     if rightOpen == True:
         room += f"  ⠀{spaces}{border}"
