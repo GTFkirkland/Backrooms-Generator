@@ -3,7 +3,7 @@ import random as ran
 import time as time
 from rooms import ranRoom
 from ui import nextFrame, clearTerminal
-#colors and symbals
+#colors and symbols
 reset = '\033[0m'
 red = '\033[31m' 
 green = '\033[32m' 
@@ -22,10 +22,11 @@ for k in range(len(map)): #collumn
         coord = {"x": i, "y": k}
         map[k].append(ranRoom(map,coord))
         #x = input(f"k:{k} | i:{i}") #debugs
-
 #play game
 player = {"x":0, "y":0}
 while True:
+    print(player)
+    print(map[player["y"]][player["x"]])
     nextFrame(map[player["y"]][player["x"]][0],map[player["y"]][player["x"]][1],map[player["y"]][player["x"]][2],map[player["y"]][player["x"]][3])
     #movement reception
     move = input(f"{yellow}{bold}<Move>> {reset}")
@@ -37,11 +38,15 @@ while True:
         nextFrame(map[player["y"]][player["x"]][0],map[player["y"]][player["x"]][1],map[player["y"]][player["x"]][2],map[player["y"]][player["x"]][3])
         move = input(f"{yellow}{bold}<Move>> {reset}")
     #moving the player
-    if move == "w" or "W":
-        None
-    elif move == "a" or "A":
-        None
-    elif move == "s" or "S":
-        None
-    elif move == "d" or "D":
-        None
+    if move == "w" or "W": #up
+        if map[player["y"]][player["x"]][0] == True: #can move
+            player["y"] -= 1
+    if move == "d" or "D": #right
+        if map[player["y"]][player["x"]][1] == True: #can move
+            player["x"] += 1
+    if move == "s" or "S": #down
+        if map[player["y"]][player["x"]][2] == True: #can move
+            player["y"] += 1
+    if move == "a" or "A": #left
+        if map[player["y"]][player["x"]][0] == True: #can move
+            player["x"] -= 1
