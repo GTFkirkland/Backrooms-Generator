@@ -17,9 +17,9 @@ def drawRoom(topOpen, rightOpen, downOpen, leftOpen, spaces, border):
         room += f"{border}{spaces}┏━━━━┓{spaces}{border}"
     
     if leftOpen == True:
-        room += f"\n{border}{spaces}⠀ {bold}{green}▢{reset}"
+        room += f"\n{border}{spaces}⠀ {bold}{green}■{reset}"
     else:
-        room += f"\n{border}{spaces}┃ {bold}{green}▢{reset}"
+        room += f"\n{border}{spaces}┃ {bold}{green}■{reset}"
     
     if rightOpen == True:
         room += f"  ⠀{spaces}{border}"

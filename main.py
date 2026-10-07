@@ -13,7 +13,7 @@ for k in range(len(map)): #collumn
     for i in range(0,len(map)): #row
         coord = {"x": i, "y": k}
         map[k].append(ranRoom(map,coord))
-        #x = input(f"k:{k} | i:{i}") #debug
+        #x = input(f"k:{k} | i:{i}") #debugs
 
 #play game
 player = {"x":0, "y":0}
