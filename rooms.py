@@ -90,5 +90,14 @@ def ranRoom(map, coord):
         roomAvail.append(False)    
 
     #room check
+    if not True in room:
+        if roomAvail == True and roomAvail[2] == True:
+            room[ran.randint(1,2)] = True
+        elif roomAvail[1] == True:
+            room[1] = True
+        elif roomAvail[2] == True:
+            room[2] = True
+        else:
+            room.append("Closed")
     #finish
     return room
