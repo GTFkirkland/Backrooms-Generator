@@ -11,7 +11,7 @@ yellow = '\033[33m'
 blue = '\033[34m' 
 cyan = '\033[36m' 
 bold = '\033[1m'
-
+grey = '\033[37m'
 #room connect func
 def connectRooms(roomMap):
     for row in roomMap:
@@ -148,8 +148,11 @@ while player != anomaly:
     nextFrame(map[player["y"]][player["x"]][0],map[player["y"]][player["x"]][1],map[player["y"]][player["x"]][2],map[player["y"]][player["x"]][3],player,anomaly,size)
     #movement reception
     move = input(f"{yellow}{bold}<Move>> {reset}")
-    availableMoves = ["w", "a", "s", "d", "W", "A", "S", "D"]
-    while not move in availableMoves:
+    try:
+        move = move.lower()
+    except:
+        pass
+    while not "w" in move and not "a" in move and not "s" in move and not "d" in move:
         print(f"{red}{bold}INVALID{reset}")
         time.sleep(0.2)
         clearTerminal()
@@ -158,6 +161,15 @@ while player != anomaly:
     
     #moving the player
     move = move.lower()
+    if "w" in move:
+        move = "w"
+    elif "d" in move:
+        move = "d"
+    elif "s" in move:
+        move = "s"
+    elif "a" in move:
+        move = "a"
+
     if move == "w" and map[player["y"]][player["x"]][0] == True:
         player["y"] -= 1
     elif move == "d" and map[player["y"]][player["x"]][1] == True:
