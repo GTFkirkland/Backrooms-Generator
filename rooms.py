@@ -43,9 +43,9 @@ def testDrawRoom():
 
 #random boolean generator
 def ranBool():
-    return ran.choice([True, True, True, False, False])
+    return ran.choice([True, False])
 
-def ranRoom(map, coord):
+def ranRoom(map, coord, size, rowPreview):
     room = []
     roomAvail = []
     #up
@@ -61,7 +61,7 @@ def ranRoom(map, coord):
         roomAvail.append(False)
         
     #right
-    if coord["x"] < 4: #far right check
+    if coord["x"] < size-1: #far right check
         #if map[coord["y"]][coord["x"]+1][3] == True:
         room.append(ranBool()) #right won't be generated, so it's random
         if room[1] == True:
@@ -73,7 +73,7 @@ def ranRoom(map, coord):
         roomAvail.append(False)
         
     #down
-    if coord["y"] < 4: #bottom row check
+    if coord["y"] < size-1: #bottom row check
         #if map[coord["y"]-1][coord["x"]][0] == True:
         room.append(ranBool()) #down won't be generated, so it's random
         if room[2] == True:
@@ -86,7 +86,7 @@ def ranRoom(map, coord):
         
     #left
     if coord["x"] > 0: #far left check
-        if map[coord["y"]][coord["x"]-1][1] == True: #room to the left rightwards check
+        if rowPreview[coord["x"]-1][1] == True: #room to the left rightwards check
             room.append(True) #open left
             roomAvail.append(False)
         else:
