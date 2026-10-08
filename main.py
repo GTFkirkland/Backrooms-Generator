@@ -72,18 +72,38 @@ def connectRooms(roomMap):
                 room[2] = True
                 roomMap[y + 1][x][0] = True
 
-#difficulty
+#map choice (START)
 clearTerminal()
 print("{==============Game=Setup==============}")
-sizeChoice = input(f"{red}{bold}Select the game size:\n {reset}1) Tiny\n {green}2) Small\n {yellow}3) Large\n {red}4) Huge\n{bold}{yellow}<Answer>> {reset}")
+sizeChoice = input(f"{bold}Select the game size:\n {blue}{bold}1) Minuscule\n {bold}{cyan}2) Tiny\n {bold}{green}3) Small\n {bold}{yellow}4) Large\n {bold}{red}5) Huge (DIFFICULT)\n{bold}{yellow}<Answer>> {reset}")
 if sizeChoice == "2":
+    size = 20
+    print(f"{bold}Tiny {reset}selected")
+elif sizeChoice == "3":
     size = 50
-if sizeChoice == "3":
+    print(f"{yellow}{bold}Small {reset}selected")
+elif sizeChoice == "4":
+    size = 80
+    print(f"{yellow}{bold}Large {reset}selected")
+elif sizeChoice == "5":
+    size = 100
+    print(f"{red}{bold}Huge {reset}selected")
+else:
+    size = 10
+    print(f"Minuscule {bold}selected{reset}")
+time.sleep(1)
 
+#difficulty
 print("----------------------------------------")
-difficulty = input(f"{red}{bold}Choose your difficulty:\n {green}1) Peaceful")
-#size = 1000
-time.sleep(2)
+difficulty = input(f"{red}{bold}Choose your difficulty:\n {green}1) Peaceful{reset}\n {red}2) HOSTILE{reset}\n{yellow}{bold}<Answer>> {reset}")
+if difficulty == "2":
+    print(f"{red}{bold}HOSTILE {reset}selected")
+    difficulty = "hostile"
+else:
+    print(f"{green}{bold}Peaceful {reset}selected")
+    difficulty = "peaceful"
+time.sleep(1)
+
 #map setup
 anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
 map = []
