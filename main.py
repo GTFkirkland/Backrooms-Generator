@@ -150,4 +150,6 @@ while player != anomaly:
         player["y"] += 1
     elif move == "a" and map[player["y"]][player["x"]][3] == True:
         player["x"] -= 1
+clearTerminal()
+print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS")
     
