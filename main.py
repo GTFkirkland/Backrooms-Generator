@@ -78,6 +78,7 @@ print("{==============Game=Setup==============}")
 sizeChoice = input(f"{red}{bold}Select the game size:\n {reset}1) Tiny\n {green}2) Small\n {yellow}3) Large\n {red}4) Huge\n{bold}{yellow}<Answer>> {reset}")
 if sizeChoice == "2":
     size = 50
+if sizeChoice == "3":
 
 print("----------------------------------------")
 difficulty = input(f"{red}{bold}Choose your difficulty:\n {green}1) Peaceful")
