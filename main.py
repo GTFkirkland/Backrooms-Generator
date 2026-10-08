@@ -74,19 +74,13 @@ def connectRooms(roomMap):
 
 #difficulty
 clearTerminal()
-difficulty = input(f"{red}{bold}Select your difficulty:\n {reset}1) Beginner\n {green}2) Amateur\n {cyan}3) Professional\n {blue}4) Expert\n{bold}{yellow}<Answer>> {reset}")
-if difficulty == "2":
+print("{==============Game=Setup==============}")
+sizeChoice = input(f"{red}{bold}Select the game size:\n {reset}1) Tiny\n {green}2) Small\n {yellow}3) Large\n {red}4) Huge\n{bold}{yellow}<Answer>> {reset}")
+if sizeChoice == "2":
     size = 50
-    print(f"{green}Amateur{reset} difficulty selected")
-elif difficulty == "3":
-    size = 100
-    print(f"{cyan}Professional{reset} difficulty selected")
-elif difficulty == "4":
-    size = 150
-    print(f"{blue}Expert{reset} difficulty selected")
-else:
-    size = 20
-    print(f"Beginner difficulty selected")
+
+print("----------------------------------------")
+difficulty = input(f"{red}{bold}Choose your difficulty:\n {green}1) Peaceful")
 #size = 1000
 time.sleep(2)
 #map setup
