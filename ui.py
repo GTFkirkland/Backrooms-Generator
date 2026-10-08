@@ -3,6 +3,7 @@
 #┗━  ━┛
 #imports
 from rooms import drawRoom, testDrawRoom
+import os
 #colors and symbals
 reset = '\033[0m'
 red = '\033[31m' 
@@ -13,7 +14,7 @@ cyan = '\033[36m'
 bold = '\033[1m'
 #functions
 def nextFrame(n,e,s,w, player, anomaly, size):
-    print(f"\n {bold}ADR {green}ONLINE{reset} ┃ {bold}x: {green}{player["x"]}{reset} {bold}y: {green}{player["y"]}{reset}\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n┃                          ┃\n┃                          ┃\n┃                          ┃")
+    print(f'\n {bold}ADR {green}ONLINE{reset} ┃ {bold}x: {green}{player["x"]}{reset} {bold}y: {green}{player["y"]}{reset}\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n┃                          ┃\n┃                          ┃\n┃                          ┃')
     drawRoom(n, e, s, w,"          ","┃")
     print("┃                          ┃\n┃                          ┃\n┃                          ┃\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛")
     #anomaly
@@ -69,5 +70,4 @@ def nextFrame(n,e,s,w, player, anomaly, size):
         anomalyPrint = f"<anomaly detected {cardinalPrint}>"
         print(f"{bold}{green}{anomalyPrint}{reset}")
 def clearTerminal():
-    for i in range(50):
-        print("")
+    os.system('cls' if os.name == 'nt' else 'clear')

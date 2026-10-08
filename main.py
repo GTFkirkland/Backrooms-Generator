@@ -87,6 +87,7 @@ elif difficulty == "4":
 else:
     size = 20
     print(f"Beginner difficulty selected")
+#size = 1000
 time.sleep(2)
 #map setup
 anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
@@ -151,5 +152,5 @@ while player != anomaly:
     elif move == "a" and map[player["y"]][player["x"]][3] == True:
         player["x"] -= 1
 clearTerminal()
-print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS")
+print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS{reset}")
     
