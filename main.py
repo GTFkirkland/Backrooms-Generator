@@ -82,7 +82,7 @@ elif difficulty == "3":
     size = 100
     print(f"{cyan}Professional{reset} difficulty selected")
 elif difficulty == "4":
-    size = 250
+    size = 150
     print(f"{blue}Expert{reset} difficulty selected")
 else:
     size = 20

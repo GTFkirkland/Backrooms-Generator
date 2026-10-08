@@ -21,38 +21,38 @@ def nextFrame(n,e,s,w, player, anomaly, size):
     distance = abs(player["x"] - anomaly["x"]) + abs(player["y"] - anomaly["y"])
     anomalyPrint = ""
     if distance <= 2:
-        anomalyPrint = "▪▪▪▪▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}!▪▪▪▪▪▪▪▪▪▪▪{reset}"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 5:
-        anomalyPrint = "▪▪▪▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}10▪▪▪▪▪▪▪▪▪▪{reset}▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 10:
-        anomalyPrint = "▪▪▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}9▪▪▪▪▪▪▪▪▪{reset}▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 15:
-        anomalyPrint = "▪▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}8▪▪▪▪▪▪▪▪{reset}▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 20:
-        anomalyPrint = "▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}7▪▪▪▪▪▪▪{reset}▪▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 25:
-        anomalyPrint = "▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}6▪▪▪▪▪▪{reset}▪▪▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 30:
-        anomalyPrint = "▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}5▪▪▪▪▪{reset}▪▪▪▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 35:
-        anomalyPrint = "▪▪▪▪"
+        anomalyPrint = f"{green}{bold}4▪▪▪▪{reset}▪▪▪▪▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 40:
-        anomalyPrint = "▪▪▪"
+        anomalyPrint = f"{green}{bold}3▪▪▪{reset}▪▪▪▪▪▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 45:
-        anomalyPrint = "▪▪"
+        anomalyPrint = f"{green}{bold}2▪▪{reset}▪▪▪▪▪▪▪▪▪"
         print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
     elif distance <= 50:
-        anomalyPrint = "▪"
-        print(f"{bold}ANOMALY-STRENGTH [{green}{anomalyPrint}{reset}]")
+        anomalyPrint = f"{green}{bold}1▪{reset}▪▪▪▪▪▪▪▪▪▪"
+        print(f"{bold}ANOMALY-STRENGTH [{anomalyPrint}]")
     else:
         if player["y"] < anomaly["y"]:
             cardinalPrint = "South"
