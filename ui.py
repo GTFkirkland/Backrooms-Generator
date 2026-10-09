@@ -12,10 +12,12 @@ yellow = '\033[33m'
 blue = '\033[34m' 
 cyan = '\033[36m' 
 bold = '\033[1m'
-grey = '\033[37m'
+grey = '\033[90m'
+magenta = '\033[35m'
+lightYellow = '\033[93m'
 #functions
 def nextFrame(n,e,s,w, player, anomaly, size):
-    print(f'\n {bold}ADR {green}ONLINE{reset} {grey}┃ {bold}{grey}x: {green}{player["x"]}{reset} {bold}{grey}y: {green}{player["y"]}{reset}{grey}\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n┃                          ┃\n┃                          ┃\n┃                          ┃{reset}')
+    print(f'\n {bold}{grey}ADR {green}ONLINE{reset} {grey}┃ {bold}{grey}x: {green}{player["x"]}{reset} {bold}{grey}y: {green}{size - player["y"]}{reset}{grey}\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n┃                          ┃\n┃                          ┃\n┃                          ┃{reset}')
     drawRoom(n, e, s, w,"          ",f"{grey}┃{reset}")
     print(f"{grey}┃                          ┃\n┃                          ┃\n┃                          ┃\n┗━━━━━━━━━━━━━━━━━━━━━━━━━━┛{reset}")
     #anomaly
@@ -25,35 +27,35 @@ def nextFrame(n,e,s,w, player, anomaly, size):
         anomalyPrint = f"{green}{bold}!▪▪▪▪▪▪▪▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 5:
-        anomalyPrint = f"{green}{bold}10▪▪▪▪▪▪▪▪▪▪{reset}▪"
+        anomalyPrint = f"{green}{bold}10▪▪▪▪▪▪▪▪▪▪{grey}▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 10:
-        anomalyPrint = f"{green}{bold}9▪▪▪▪▪▪▪▪▪{reset}▪▪"
+        anomalyPrint = f"{green}{bold}9▪▪▪▪▪▪▪▪▪{grey}▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 15:
-        anomalyPrint = f"{green}{bold}8▪▪▪▪▪▪▪▪{reset}▪▪▪"
+        anomalyPrint = f"{green}{bold}8▪▪▪▪▪▪▪▪{grey}▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 20:
-        anomalyPrint = f"{green}{bold}7▪▪▪▪▪▪▪{reset}▪▪▪▪"
+        anomalyPrint = f"{green}{bold}7▪▪▪▪▪▪▪{grey}▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 25:
-        anomalyPrint = f"{green}{bold}6▪▪▪▪▪▪{reset}▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}6▪▪▪▪▪▪{grey}▪▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 30:
-        anomalyPrint = f"{green}{bold}5▪▪▪▪▪{reset}▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}5▪▪▪▪▪{grey}▪▪▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 35:
-        anomalyPrint = f"{green}{bold}4▪▪▪▪{reset}▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}4▪▪▪▪{grey}▪▪▪▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 40:
-        anomalyPrint = f"{green}{bold}3▪▪▪{reset}▪▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}3▪▪▪{grey}▪▪▪▪▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 45:
-        anomalyPrint = f"{green}{bold}2▪▪{reset}▪▪▪▪▪▪▪▪▪"
+        anomalyPrint = f"{green}{bold}2▪▪{grey}▪▪▪▪▪▪▪▪▪{reset}"
         print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     elif distance <= 50:
-        anomalyPrint = f"{green}{bold}1▪{reset}▪▪▪▪▪▪▪▪▪▪"
-        print(f"{bold}{grey}ANOMALY-STRENGTH [{anomalyPrint}{grey}]{reset}")
+        anomalyPrint = f"{green}{bold}1▪{grey}▪▪▪▪▪▪▪▪▪▪{reset}"
+        print(f"{bold}{grey}ANOMALY-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
     else:
         if player["y"] < anomaly["y"]:
             cardinalPrint = "South"

@@ -12,6 +12,8 @@ blue = '\033[34m'
 cyan = '\033[36m' 
 bold = '\033[1m'
 grey = '\033[37m'
+magenta = '\033[35m'
+lightYellow = '\033[93m'
 #room connect func
 def connectRooms(roomMap):
     for row in roomMap:
@@ -75,29 +77,32 @@ def connectRooms(roomMap):
 #map choice (START)
 clearTerminal()
 print("{==============Game=Setup==============}")
-sizeChoice = input(f"{bold}Select the game size:\n {blue}{bold}1) Minuscule\n {bold}{cyan}2) Tiny\n {bold}{green}3) Small\n {bold}{yellow}4) Large\n {bold}{red}5) Huge (DIFFICULT)\n{bold}{yellow}<Answer>> {reset}")
+sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{red} Huge {reset}☠︎︎{reset}\n {bold}6){reset}{magenta} Massive {reset}☠︎︎{reset}\n{bold}{yellow}<Answer>> {reset}")
 if sizeChoice == "2":
-    size = 20
-    print(f"{bold}Tiny {reset}selected")
+    size = 25
+    print(f"{cyan}Tiny {reset}selected")
 elif sizeChoice == "3":
     size = 50
-    print(f"{yellow}{bold}Small {reset}selected")
+    print(f"{green}Small {reset}selected")
 elif sizeChoice == "4":
-    size = 80
-    print(f"{yellow}{bold}Large {reset}selected")
+    size = 75
+    print(f"{lightYellow}Large {reset}selected")
 elif sizeChoice == "5":
     size = 100
-    print(f"{red}{bold}Huge {reset}selected")
+    print(f"{red}Huge {reset}selected")
+elif sizeChoice == "6":
+    size = 200
+    print(f"{magenta}Massive {reset}selected")
 else:
     size = 10
-    print(f"Minuscule {bold}selected{reset}")
+    print(f"{blue}Minuscule {reset}selected")
 time.sleep(1)
 
 #difficulty
 print("----------------------------------------")
-difficulty = input(f"{red}{bold}Choose your difficulty:\n {green}1) Peaceful{reset}\n {red}2) HOSTILE{reset}\n{yellow}{bold}<Answer>> {reset}")
+difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}Peaceful{reset}\n {bold}2){reset} {red}Hostile{reset}\n{yellow}{bold}<Answer>> {reset}")
 if difficulty == "2":
-    print(f"{red}{bold}HOSTILE {reset}selected")
+    print(f"{red}{bold}Hostile {reset}selected")
     difficulty = "hostile"
 else:
     print(f"{green}{bold}Peaceful {reset}selected")
