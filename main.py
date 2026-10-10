@@ -3,6 +3,7 @@ import random as ran
 import time as time
 from rooms import ranRoom
 from ui import nextFrame, clearTerminal
+from enemy import moveHostile
 #colors and symbols
 reset = '\033[0m'
 red = '\033[31m' 
@@ -100,7 +101,7 @@ time.sleep(1)
 
 #difficulty
 print("----------------------------------------")
-difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}Peaceful{reset}\n {bold}2){reset} {red}Hostile{reset}\n{yellow}{bold}<Answer>> {reset}")
+difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}Peaceful{reset}\n {bold}2){reset} {red}Easy{reset}\n {bold}2){reset} {red}Normal{reset}\n {bold}2){reset} {red}Hard{reset}\n{yellow}{bold}<Answer>> {reset}")
 if difficulty == "2":
     print(f"{red}{bold}Hostile {reset}selected")
     difficulty = "hostile"
@@ -109,8 +110,22 @@ else:
     difficulty = "peaceful"
 time.sleep(1)
 
-#map setup
+#exit, enemy placement, and player placement
+player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
 anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+if difficulty == "hostile":
+    hostile = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+else:
+    hostile = None
+
+while player == anomaly or player == hostile or anomaly == hostile:
+    player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+    anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+    if difficulty == "hostile":
+        hostile = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+    else:
+        hostile = None
+#map setup
 map = []
 for i in range(size):
     map.append([])
@@ -147,10 +162,10 @@ story = input(f"{bold}Obviously, you can use your {bold}{green}Anomaly Detection
 story = input(f"{bold}{red}OBJECTIVE:{reset} Use your {bold}{green}ADR{reset} to find a way out {red}{bold}[ENTER to begin]{reset}")
 
 #play game
-player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
-while player != anomaly:
+roomSeen = [player.copy()]
+while player != anomaly and player != hostile:
     clearTerminal()
-    nextFrame(map[player["y"]][player["x"]][0],map[player["y"]][player["x"]][1],map[player["y"]][player["x"]][2],map[player["y"]][player["x"]][3],player,anomaly,size)
+    nextFrame(map,player,anomaly,size,roomSeen,hostile)
     #movement reception
     move = input(f"{yellow}{bold}<Move>> {reset}")
     try:
@@ -161,7 +176,7 @@ while player != anomaly:
         print(f"{red}{bold}INVALID{reset}")
         time.sleep(0.2)
         clearTerminal()
-        nextFrame(map[player["y"]][player["x"]][0],map[player["y"]][player["x"]][1],map[player["y"]][player["x"]][2],map[player["y"]][player["x"]][3],player,anomaly,size)
+        nextFrame(map,player,anomaly,size,roomSeen,hostile)
         move = input(f"{yellow}{bold}<Move>> {reset}")
     
     #moving the player
@@ -183,6 +198,17 @@ while player != anomaly:
         player["y"] += 1
     elif move == "a" and map[player["y"]][player["x"]][3] == True:
         player["x"] -= 1
-clearTerminal()
-print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS{reset}")
-    
+
+    #room rememberance
+    if player not in roomSeen:
+        roomSeen.append(player.copy())
+
+    #hostile movement
+    if difficulty == "hostile":
+        if ran.randint(0,1) == 1: #50% chance
+            hostile = moveHostile(hostile, player, map, size)
+if player == anomaly:
+    clearTerminal()
+    print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS{reset}")  
+elif player == hostile:
+    nextFrame(map,player,anomaly,size,roomSeen,hostile)

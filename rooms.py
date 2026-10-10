@@ -9,37 +9,88 @@ blue = '\033[34m'
 cyan = '\033[36m' 
 bold = '\033[1m'
 #functions
-def drawRoom(topOpen, rightOpen, downOpen, leftOpen, spaces, border):
-    room = ("""""")
-    if topOpen == True:
-        room += f"{border}{spaces}┏━  ━┓{spaces}{border}"
-    else:
-        room += f"{border}{spaces}┏━━━━┓{spaces}{border}"
-    
-    if leftOpen == True:
-        room += f"\n{border}{spaces}⠀ {bold}{green}■{reset}"
-    else:
-        room += f"\n{border}{spaces}┃ {bold}{green}■{reset}"
-    
-    if rightOpen == True:
-        room += f"  ⠀{spaces}{border}"
-    else:
-        room += f"  ┃{spaces}{border}"
+def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile):
+    y = player["y"]
+    x = player["x"]
+    playerDead = hostile == player
+    for rowOffset in range(-1, 2):
+        roomY = y + rowOffset
+        topLine = ""
+        middleLine = ""
+        bottomLine = ""
 
-    if downOpen == True:
-        room += f"\n{border}{spaces}┗━  ━┛{spaces}{border}"
-    else:
-        room += f"\n{border}{spaces}┗━━━━┛{spaces}{border}"
-    print(room)
+        for columnOffset in range(-1, 2):
+            roomX = x + columnOffset
+
+            if roomY >= 0 and roomY < len(map) and roomX >= 0 and roomX < len(map[roomY]):
+                roomDiscovered = {"x": roomX, "y": roomY} in roomSeen
+                if roomDiscovered:
+                    currentRoom = map[roomY][roomX]
+
+                    if currentRoom[0] == True:
+                        topLine += "┏━  ━┓"
+                    else:
+                        topLine += "┏━━━━┓"
+
+                    if currentRoom[3] == True:
+                        leftSide = "⠀"
+                    else:
+                        leftSide = "┃"
+                    if currentRoom[1] == True:
+                        rightSide = "⠀"
+                    else:
+                        rightSide = "┃"
+
+                    if currentRoom[2] == True:
+                        bottomLine += "┗━  ━┛"
+                    else:
+                        bottomLine += "┗━━━━┛"
+                else:
+                    topLine += "      "
+                    bottomLine += "      "
+
+                markers = []
+                if roomDiscovered and roomY == y and roomX == x and not playerDead:
+                    markers.append(f"{green}{bold}■{reset}")
+                if roomY == anomaly["y"] and roomX == anomaly["x"]:
+                    markers.append(f"{red}{bold}■{reset}")
+                if hostile != None and not playerDead and roomY == hostile["y"] and roomX == hostile["x"]:
+                    markers.append(f"{red}{bold}■{reset}")
+
+                markerSpaces = 4 - len(markers)
+                leftSpaces = markerSpaces // 2
+                rightSpaces = markerSpaces - leftSpaces
+                if roomDiscovered:
+                    middleLine += f"{leftSide}{' ' * leftSpaces}{''.join(markers)}{' ' * rightSpaces}{rightSide}"
+                else:
+                    middleLine += f" {' ' * leftSpaces}{''.join(markers)}{' ' * rightSpaces} "
+            else:
+                topLine += "      "
+                middleLine += "      "
+                bottomLine += "      "
+
+        print(f"{border}{spaces}{topLine}{spaces}{border}")
+        print(f"{border}{spaces}{middleLine}{spaces}{border}")
+        print(f"{border}{spaces}{bottomLine}{spaces}{border}")
 
 #test
 def testDrawRoom():
-    drawRoom(True, True, True, True,"","")
-    drawRoom(False, False, False, False,"","")
-    drawRoom(True, False, False, False,"","")
-    drawRoom(False, True, False, False,"","")
-    drawRoom(False, False, True, False,"","")
-    drawRoom(False, False, False, True,"","")
+    sampleMap = [
+        [[False, True, True, False], [False, True, True, True], [False, False, True, True]],
+        [[True, True, True, False], [True, True, True, True], [True, False, True, True]],
+        [[True, True, False, False], [True, True, False, True], [True, False, False, True]],
+    ]
+    drawRoom(sampleMap, {"x": 1, "y": 0}, "", "", [
+        {"x": 0, "y": 0},
+        {"x": 1, "y": 0},
+        {"x": 2, "y": 0},
+        {"x": 0, "y": 1},
+        {"x": 1, "y": 1},
+        {"x": 2, "y": 1},
+        {"x": 0, "y": 2},
+        {"x": 1, "y": 2},
+        {"x": 2, "y": 2},
+    ], {"x": 0, "y": 0}, {"x": 2, "y": 0})
 
 #random boolean generator
 def ranBool():
