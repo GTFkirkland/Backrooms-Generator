@@ -78,33 +78,50 @@ def connectRooms(roomMap):
 #map choice (START)
 clearTerminal()
 print("{==============Game=Setup==============}")
-sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{red} Huge {reset}☠︎︎{reset}\n {bold}6){reset}{magenta} Massive {reset}☠︎︎{reset}\n{bold}{yellow}<Answer>> {reset}")
+sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{red} Huge {reset}\n {bold}6){reset}{magenta} Massive {reset}\n{bold}{yellow}<Answer>> {reset}")
 if sizeChoice == "2":
-    size = 25
+    size = 50
     print(f"{cyan}Tiny {reset}selected")
 elif sizeChoice == "3":
-    size = 50
+    size = 80
     print(f"{green}Small {reset}selected")
 elif sizeChoice == "4":
-    size = 75
+    size = 120
     print(f"{lightYellow}Large {reset}selected")
 elif sizeChoice == "5":
-    size = 100
+    size = 180
     print(f"{red}Huge {reset}selected")
 elif sizeChoice == "6":
-    size = 200
+    size = 270
     print(f"{magenta}Massive {reset}selected")
 else:
-    size = 10
+    size = 20
     print(f"{blue}Minuscule {reset}selected")
 time.sleep(1)
 
 #difficulty
 print("----------------------------------------")
-difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}Peaceful{reset}\n {bold}2){reset} {red}Easy{reset}\n {bold}2){reset} {red}Normal{reset}\n {bold}2){reset} {red}Hard{reset}\n{yellow}{bold}<Answer>> {reset}")
+difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}Peaceful{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}N̴̫̈́̍Ỉ̸̪͒G̷̛̺̈H̴̺̙̏T̸̞͇̿M̷̮͘A̸̤͌͗R̷̼̹̾É̷̲̫{reset}\n{yellow}{bold}<Answer>> {reset}")
 if difficulty == "2":
-    print(f"{red}{bold}Hostile {reset}selected")
+    print(f"{cyan}{bold}Easy {reset}selected")
     difficulty = "hostile"
+    subDifficulty = "easy"
+elif difficulty == "3":
+    print(f"{blue}{bold}Normal {reset}selected")
+    difficulty = "hostile"
+    subDifficulty = "normal"
+elif difficulty == "4":
+    print(f"{red}{bold}Hard {reset}selected")
+    difficulty = "hostile"
+    subDifficulty = "hard"
+elif difficulty == "5":
+    print(f"{magenta}{bold}Insane {reset}selected")
+    difficulty = "hostile"
+    subDifficulty = "insane"
+elif difficulty == "6":
+    print(f"{magenta}{bold}N̴̫̈́̍Ỉ̸̪͒G̷̛̺̈H̴̺̙̏T̸̞͇̿M̷̮͘A̸̤͌͗R̷̼̹̾É̷̲̫{reset}selected")
+    difficulty = "hostile"
+    subDifficulty = "nightmare"
 else:
     print(f"{green}{bold}Peaceful {reset}selected")
     difficulty = "peaceful"
@@ -114,7 +131,10 @@ time.sleep(1)
 player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
 anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
 if difficulty == "hostile":
-    hostile = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+    hostile = {
+        "x": ran.randint(max(0, player["x"] - round(size / 5)), min(size - 1, player["x"] + round(size / 5))),
+        "y": ran.randint(max(0, player["y"] - round(size / 5)), min(size - 1, player["y"] + round(size / 5)))
+    }
 else:
     hostile = None
 
@@ -122,7 +142,10 @@ while player == anomaly or player == hostile or anomaly == hostile:
     player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
     anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
     if difficulty == "hostile":
-        hostile = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+        hostile = {
+            "x": ran.randint(max(0, player["x"] - round(size / 5)), min(size - 1, player["x"] + round(size / 5))),
+            "y": ran.randint(max(0, player["y"] - round(size / 5)), min(size - 1, player["y"] + round(size / 5)))
+        }
     else:
         hostile = None
 #map setup
@@ -160,12 +183,46 @@ story = input(f"When you land, you seem to be in a nearly {bold}{red}infinite ma
 story = input(f"but you know exactly how to {bold}{red}escape{reset} from them. {bold}{yellow}[ENTER to continue]{reset}")
 story = input(f"{bold}Obviously, you can use your {bold}{green}Anomaly Detection Radar{reset} to find a way back. {bold}{yellow}[ENTER to continue]{reset}")
 story = input(f"{bold}{red}OBJECTIVE:{reset} Use your {bold}{green}ADR{reset} to find a way out {red}{bold}[ENTER to begin]{reset}")
-
+if difficulty == "hostile":
+    story = input(f"{bold}{red}<!WARNING!>{reset}")
+    story = input(f"{bold}{red}<!HOSTILE-PRESENSE-DETECTED!>{reset}")
+    story = input(f"<Your {bold}{green}ADR {reset}isn't able to differentiate between {bold}{red}ANOMALIES{reset}>")
+    story = input(f"<Ensure the {bold}{red}ANOMALY{reset} you approach is... {bold}{green}CORRECT{reset}>")
+#hostile setup
+if difficulty == "hostile":
+    #hunt chance based on difficulty
+    if subDifficulty == "easy":
+        huntChance = [True,False,False,False] #25%
+        huntLength = 18
+        grace = 25
+    if subDifficulty == "normal":
+        huntChance = [True,False, False] #33%
+        huntLength = 26
+        grace = 20
+    if subDifficulty == "hard":
+        huntChance = [True,False] #50%
+        huntLength = 34
+        grace = 15
+    if subDifficulty == "insane":
+        huntChance = [True, True, False] #66%
+        huntLength = 42
+        grace = 10
+    if subDifficulty == "nightmare":
+        huntChance = [True, True, True, False] #75%
+        huntLength = 50
+        grace = 5
+    #hunt timer setup
+    hunt = False
+    huntTurnsRemaining = huntLength
 #play game
+hostilePreviousRoom = None
 roomSeen = [player.copy()]
-while player != anomaly and player != hostile:
+while player != anomaly and not (difficulty == "hostile" and hunt and player == hostile):
+    if difficulty == "hostile" and hunt == False:
+        hunt = ran.choice(huntChance)
+
     clearTerminal()
-    nextFrame(map,player,anomaly,size,roomSeen,hostile)
+    nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)
     #movement reception
     move = input(f"{yellow}{bold}<Move>> {reset}")
     try:
@@ -176,7 +233,7 @@ while player != anomaly and player != hostile:
         print(f"{red}{bold}INVALID{reset}")
         time.sleep(0.2)
         clearTerminal()
-        nextFrame(map,player,anomaly,size,roomSeen,hostile)
+        nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)
         move = input(f"{yellow}{bold}<Move>> {reset}")
     
     #moving the player
@@ -204,11 +261,32 @@ while player != anomaly and player != hostile:
         roomSeen.append(player.copy())
 
     #hostile movement
-    if difficulty == "hostile":
-        if ran.randint(0,1) == 1: #50% chance
-            hostile = moveHostile(hostile, player, map, size)
-if player == anomaly:
+    if difficulty == "hostile" and hunt:
+        if player == hostile:
+            break
+
+        oldHostileRoom = hostile.copy()
+        hostile = moveHostile(hostile, player, map, size, hostilePreviousRoom)
+        hostilePreviousRoom = oldHostileRoom
+        huntTurnsRemaining -= 1 
+        if player == hostile:
+            break
+        if huntTurnsRemaining == 0:
+            hunt = False
+            huntTurnsRemaining = huntLength
+            hostile = {
+                "x": ran.randint(max(0, player["x"] - round(size / 10)), min(size - 1, player["x"] + round(size / 10))),
+                "y": ran.randint(max(0, player["y"] - round(size / 10)), min(size - 1, player["y"] + round(size / 10)))}
+            hostilePreviousRoom = None
+        
+
+            
+
+
+#end
+if player == anomaly: #escape
     clearTerminal()
     print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS{reset}")  
-elif player == hostile:
-    nextFrame(map,player,anomaly,size,roomSeen,hostile)
+elif difficulty == "hostile" and hunt and player == hostile: #death
+    clearTerminal()
+    nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)

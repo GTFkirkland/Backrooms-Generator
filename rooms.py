@@ -9,10 +9,10 @@ blue = '\033[34m'
 cyan = '\033[36m' 
 bold = '\033[1m'
 #functions
-def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile):
+def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile, hunt):
     y = player["y"]
     x = player["x"]
-    playerDead = hostile == player
+    playerDead = hunt and hostile == player
     for rowOffset in range(-1, 2):
         roomY = y + rowOffset
         topLine = ""
@@ -54,7 +54,7 @@ def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile):
                     markers.append(f"{green}{bold}■{reset}")
                 if roomY == anomaly["y"] and roomX == anomaly["x"]:
                     markers.append(f"{red}{bold}■{reset}")
-                if hostile != None and not playerDead and roomY == hostile["y"] and roomX == hostile["x"]:
+                if hostile != None and hunt and not playerDead and roomY == hostile["y"] and roomX == hostile["x"]:
                     markers.append(f"{red}{bold}■{reset}")
 
                 markerSpaces = 4 - len(markers)
@@ -90,7 +90,7 @@ def testDrawRoom():
         {"x": 0, "y": 2},
         {"x": 1, "y": 2},
         {"x": 2, "y": 2},
-    ], {"x": 0, "y": 0}, {"x": 2, "y": 0})
+    ], {"x": 0, "y": 0}, {"x": 2, "y": 0}, True)
 
 #random boolean generator
 def ranBool():

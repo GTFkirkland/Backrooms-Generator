@@ -16,16 +16,16 @@ grey = '\033[90m'
 magenta = '\033[35m'
 lightYellow = '\033[93m'
 #functions
-def nextFrame(map, player, anomaly, size, roomSeen, hostile):
+def nextFrame(map, player, anomaly, size, roomSeen, hostile, hunt):
     if hostile == player:
         print(f'\n {bold}{grey}ADR {red}OFFLINE{reset}{grey} ┃ {bold}{grey}x: {red}?{reset} {bold}{grey}y: {red}?{reset}{grey}\n┏━━━━━━━━━━━━━━━━━━━━━━━━┓{reset}')
     else:
         print(f'\n {bold}{grey}ADR {green}ONLINE{reset}{grey} ┃ {bold}{grey}x: {green}{player["x"]}{reset} {bold}{grey}y: {green}{size - player["y"]}{reset}{grey}\n┏━━━━━━━━━━━━━━━━━━━━━━━━┓{reset}')
-    drawRoom(map,player,"   ",f"{grey}┃{reset}",roomSeen,anomaly,hostile)
+    drawRoom(map,player,"   ",f"{grey}┃{reset}",roomSeen,anomaly,hostile,hunt)
     print(f"{grey}┗━━━━━━━━━━━━━━━━━━━━━━━━┛{reset}")
     #anomaly
     anomalyDistance = abs(player["x"] - anomaly["x"]) + abs(player["y"] - anomaly["y"])
-    if hostile != None:
+    if hostile != None and hunt:
         hostileDistance = abs(player["x"] - hostile["x"]) + abs(player["y"] - hostile["y"])
     else:
         hostileDistance = 9999
@@ -80,8 +80,8 @@ def nextFrame(map, player, anomaly, size, roomSeen, hostile):
                     cardinalPrint += "west"
                 else:
                     cardinalPrint += ""
-                anomalyPrint = f"<anomaly detected {cardinalPrint}>"
-                print(f"{bold}{green}{anomalyPrint}{reset}")
+                anomalyPrint = f"{grey}<anomaly detected {green}{cardinalPrint}{grey}>"
+                print(f"{bold}{anomalyPrint}{reset}")
         else:
             if hostileDistance <= 2:
                 hostilePrint = f"{green}{bold}!)▪▪▪▪▪▪{reset}"
@@ -130,9 +130,9 @@ def nextFrame(map, player, anomaly, size, roomSeen, hostile):
                     cardinalPrint += "west"
                 else:
                     cardinalPrint += ""
-                hostilePrint = f"<anomaly detected {cardinalPrint}>"
-                print(f"{bold}{green}{hostilePrint}{reset}")
+                hostilePrint = f"{grey}<Hostile detected {green}{cardinalPrint}{grey}>"
+                print(f"{bold}{hostilePrint}{reset}")
     else:
-        print(f"{red}{bold}<SIGNAL-NOT-FOUND>")
+        print(f"{red}{bold}<SIGNAL-NOT-FOUND>{reset}")
 def clearTerminal():
     os.system('cls' if os.name == 'nt' else 'clear')

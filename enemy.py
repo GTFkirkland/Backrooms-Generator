@@ -10,35 +10,72 @@ cyan = '\033[36m'
 bold = '\033[1m'
 
 #functions
-def moveHostile(hostile, player, map, size):
-    #move hostile towards player if possible
-    if player["x"] > hostile["x"] and map[hostile["y"]][hostile["x"]][1] == True:
-        hostile["x"] += 1
-    elif player["x"] < hostile["x"] and map[hostile["y"]][hostile["x"]][3] == True:
-        hostile["x"] -= 1
-    elif player["y"] > hostile["y"] and map[hostile["y"]][hostile["x"]][2] == True:
-        hostile["y"] += 1
-    elif player["y"] < hostile["y"] and map[hostile["y"]][hostile["x"]][0] == True:
-        hostile["y"] -= 1
-    else:
-        #wall in way, move random
-        direction = [0,1,2,3]
-        if hostile["x"] == 0:
-            direction.remove(3)
-        if hostile["x"] == size-1:
-            direction.remove(1)
-        if hostile["y"] == 0:
-            direction.remove(0)
-        if hostile["y"] == size-1:
-            direction.remove(2)
-        direction = ran.choice(direction)
+def moveHostile(hostile, player, map, size, previousRoom):
+    if hostile == player:
+        return hostile
 
-        if direction == 0: #up
-            hostile["y"] -= 1
-        elif direction == 1: #right
-            hostile["x"] += 1
-        elif direction == 2: #down
-            hostile["y"] += 1
-        elif direction == 3: #left
-            hostile["x"] -= 1
+    room = map[hostile["y"]][hostile["x"]]
+    openDirections = []
+    if room[0] == True:
+        openDirections.append(0)
+    if room[1] == True:
+        openDirections.append(1)
+    if room[2] == True:
+        openDirections.append(2)
+    if room[3] == True:
+        openDirections.append(3)
+
+    otherDirections = []
+    for direction in openDirections:
+        nextX = hostile["x"]
+        nextY = hostile["y"]
+        if direction == 0:
+            nextY -= 1
+        elif direction == 1:
+            nextX += 1
+        elif direction == 2:
+            nextY += 1
+        else:
+            nextX -= 1
+
+        if previousRoom == None or nextX != previousRoom["x"] or nextY != previousRoom["y"]:
+            otherDirections.append(direction)
+
+    if otherDirections:
+        openDirections = otherDirections
+
+    preferredDirections = []
+    currentDistance = abs(player["x"] - hostile["x"]) + abs(player["y"] - hostile["y"])
+    for direction in openDirections:
+        nextX = hostile["x"]
+        nextY = hostile["y"]
+        if direction == 0:
+            nextY -= 1
+        elif direction == 1:
+            nextX += 1
+        elif direction == 2:
+            nextY += 1
+        else:
+            nextX -= 1
+
+        nextDistance = abs(player["x"] - nextX) + abs(player["y"] - nextY)
+        if nextDistance < currentDistance:
+            preferredDirections.append(direction)
+
+    if preferredDirections:
+        direction = ran.choice(preferredDirections)
+    elif openDirections:
+        direction = ran.choice(openDirections)
+    else:
+        return hostile
+
+    if direction == 0:
+        hostile["y"] -= 1
+    elif direction == 1:
+        hostile["x"] += 1
+    elif direction == 2:
+        hostile["y"] += 1
+    else:
+        hostile["x"] -= 1
+
     return hostile
