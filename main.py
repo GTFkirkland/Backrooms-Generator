@@ -130,10 +130,11 @@ time.sleep(1)
 #exit, enemy placement, and player placement
 player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
 anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
+hostileSpawnRange = min(10, size - 1)
 if difficulty == "hostile":
     hostile = {
-        "x": ran.randint(max(0, player["x"] - round(size / 5)), min(size - 1, player["x"] + round(size / 5))),
-        "y": ran.randint(max(0, player["y"] - round(size / 5)), min(size - 1, player["y"] + round(size / 5)))
+        "x": ran.randint(max(0, player["x"] - hostileSpawnRange), min(size - 1, player["x"] + hostileSpawnRange)),
+        "y": ran.randint(max(0, player["y"] - hostileSpawnRange), min(size - 1, player["y"] + hostileSpawnRange))
     }
 else:
     hostile = None
@@ -143,8 +144,8 @@ while player == anomaly or player == hostile or anomaly == hostile:
     anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
     if difficulty == "hostile":
         hostile = {
-            "x": ran.randint(max(0, player["x"] - round(size / 5)), min(size - 1, player["x"] + round(size / 5))),
-            "y": ran.randint(max(0, player["y"] - round(size / 5)), min(size - 1, player["y"] + round(size / 5)))
+            "x": ran.randint(max(0, player["x"] - hostileSpawnRange), min(size - 1, player["x"] + hostileSpawnRange)),
+            "y": ran.randint(max(0, player["y"] - hostileSpawnRange), min(size - 1, player["y"] + hostileSpawnRange))
         }
     else:
         hostile = None
@@ -192,23 +193,23 @@ if difficulty == "hostile":
 if difficulty == "hostile":
     #hunt chance based on difficulty
     if subDifficulty == "easy":
-        huntChance = [True,False,False,False] #25%
+        huntChance = [True] + [False] * 31 #3.125% 1/32
         huntLength = 18
         grace = 25
     if subDifficulty == "normal":
-        huntChance = [True,False, False] #33%
+        huntChance = [True] + [False] * 15 #6.25% 1/16
         huntLength = 26
         grace = 20
     if subDifficulty == "hard":
-        huntChance = [True,False] #50%
+        huntChance = [True] + [False] * 7 #12.5% 1/8
         huntLength = 34
         grace = 15
     if subDifficulty == "insane":
-        huntChance = [True, True, False] #66%
+        huntChance = [True, False, False, False] #25% 1/4
         huntLength = 42
         grace = 10
     if subDifficulty == "nightmare":
-        huntChance = [True, True, True, False] #75%
+        huntChance = [True, False] #50% 1/2
         huntLength = 50
         grace = 5
     #hunt timer setup
@@ -217,9 +218,13 @@ if difficulty == "hostile":
 #play game
 hostilePreviousRoom = None
 roomSeen = [player.copy()]
-while player != anomaly and not (difficulty == "hostile" and hunt and player == hostile):
+while player != anomaly:
+    
     if difficulty == "hostile" and hunt == False:
-        hunt = ran.choice(huntChance)
+        if grace > 0:
+            grace -= 1
+        else:
+            hunt = ran.choice(huntChance)
 
     clearTerminal()
     nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)
@@ -260,23 +265,28 @@ while player != anomaly and not (difficulty == "hostile" and hunt and player == 
     if player not in roomSeen:
         roomSeen.append(player.copy())
 
+    if difficulty == "hostile" and player == hostile:
+        break
+
     #hostile movement
     if difficulty == "hostile" and hunt:
-        if player == hostile:
-            break
-
         oldHostileRoom = hostile.copy()
         hostile = moveHostile(hostile, player, map, size, hostilePreviousRoom)
         hostilePreviousRoom = oldHostileRoom
-        huntTurnsRemaining -= 1 
         if player == hostile:
             break
+
+        huntTurnsRemaining -= 1 
         if huntTurnsRemaining == 0:
             hunt = False
             huntTurnsRemaining = huntLength
             hostile = {
                 "x": ran.randint(max(0, player["x"] - round(size / 10)), min(size - 1, player["x"] + round(size / 10))),
                 "y": ran.randint(max(0, player["y"] - round(size / 10)), min(size - 1, player["y"] + round(size / 10)))}
+            while hostile == player:
+                hostile = {
+                    "x": ran.randint(max(0, player["x"] - round(size / 10)), min(size - 1, player["x"] + round(size / 10))),
+                    "y": ran.randint(max(0, player["y"] - round(size / 10)), min(size - 1, player["y"] + round(size / 10)))}
             hostilePreviousRoom = None
         
 
@@ -284,9 +294,9 @@ while player != anomaly and not (difficulty == "hostile" and hunt and player == 
 
 
 #end
-if player == anomaly: #escape
+if difficulty == "hostile" and player == hostile: #death
     clearTerminal()
-    print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS{reset}")  
-elif difficulty == "hostile" and hunt and player == hostile: #death
+    nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt,True)
+elif player == anomaly: #escape
     clearTerminal()
-    nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)
+    print(f"{green}{bold}YOU SUCCESFULLY ESCAPED THE ROOMS{reset}")

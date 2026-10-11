@@ -8,47 +8,60 @@ yellow = '\033[33m'
 blue = '\033[34m' 
 cyan = '\033[36m' 
 bold = '\033[1m'
+grey = '\033[90m'
 #functions
-def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile, hunt):
+def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile, hunt, playerDead=False):
     y = player["y"]
     x = player["x"]
-    playerDead = hunt and hostile == player
     for rowOffset in range(-1, 2):
         roomY = y + rowOffset
         topLine = ""
         middleLine = ""
         bottomLine = ""
 
+        leftBorder = border
+        rightBorder = border
+        if hostile != None and hunt and not playerDead:
+            if hostile["x"] == x - 2 and hostile["y"] == roomY:
+                leftBorder = f"{red}{bold}■{reset}"
+            elif hostile["x"] == x + 2 and hostile["y"] == roomY:
+                rightBorder = f"{red}{bold}■{reset}"
+        if anomaly["x"] == x - 2 and anomaly["y"] == roomY:
+            leftBorder = f"{red}{bold}■{reset}"
+        elif anomaly["x"] == x + 2 and anomaly["y"] == roomY:
+            rightBorder = f"{red}{bold}■{reset}"
+
         for columnOffset in range(-1, 2):
             roomX = x + columnOffset
 
-            if roomY >= 0 and roomY < len(map) and roomX >= 0 and roomX < len(map[roomY]):
-                roomDiscovered = {"x": roomX, "y": roomY} in roomSeen
-                if roomDiscovered:
-                    currentRoom = map[roomY][roomX]
+            roomInMap = roomY >= 0 and roomY < len(map) and roomX >= 0 and roomX < len(map[roomY])
+            roomDiscovered = roomInMap and {"x": roomX, "y": roomY} in roomSeen
 
-                    if currentRoom[0] == True:
-                        topLine += "┏━  ━┓"
-                    else:
-                        topLine += "┏━━━━┓"
-
-                    if currentRoom[3] == True:
-                        leftSide = "⠀"
-                    else:
-                        leftSide = "┃"
-                    if currentRoom[1] == True:
-                        rightSide = "⠀"
-                    else:
-                        rightSide = "┃"
-
-                    if currentRoom[2] == True:
-                        bottomLine += "┗━  ━┛"
-                    else:
-                        bottomLine += "┗━━━━┛"
+            if roomDiscovered:
+                currentRoom = map[roomY][roomX]
+                if currentRoom[0] == True:
+                    topLine += "┏━  ━┓"
                 else:
-                    topLine += "      "
-                    bottomLine += "      "
+                    topLine += "┏━━━━┓"
 
+                if currentRoom[3] == True:
+                    leftSide = "⠀"
+                else:
+                    leftSide = "┃"
+                if currentRoom[1] == True:
+                    rightSide = "⠀"
+                else:
+                    rightSide = "┃"
+
+                if currentRoom[2] == True:
+                    bottomLine += "┗━  ━┛"
+                else:
+                    bottomLine += "┗━━━━┛"
+            else:
+                topLine += "      "
+                bottomLine += "      "
+
+            if roomInMap:
                 markers = []
                 if roomDiscovered and roomY == y and roomX == x and not playerDead:
                     markers.append(f"{green}{bold}■{reset}")
@@ -65,13 +78,34 @@ def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile, hunt):
                 else:
                     middleLine += f" {' ' * leftSpaces}{''.join(markers)}{' ' * rightSpaces} "
             else:
-                topLine += "      "
                 middleLine += "      "
-                bottomLine += "      "
+
+        if rowOffset == -1:
+            topFrame = _borderWithMarkers(x, y - 2, anomaly, hostile, hunt, playerDead)
+            print(f"{grey}┏{topFrame}┓{reset}")
 
         print(f"{border}{spaces}{topLine}{spaces}{border}")
-        print(f"{border}{spaces}{middleLine}{spaces}{border}")
+        print(f"{leftBorder}{spaces}{middleLine}{spaces}{rightBorder}")
         print(f"{border}{spaces}{bottomLine}{spaces}{border}")
+
+        if rowOffset == 1:
+            bottomFrame = _borderWithMarkers(x, y + 2, anomaly, hostile, hunt, playerDead)
+            print(f"{grey}┗{bottomFrame}┛{reset}")
+
+
+def _borderWithMarkers(playerX, markerY, anomaly, hostile, hunt, playerDead):
+    line = ["━"] * 24
+    markers = [anomaly]
+    if hostile != None and hunt and not playerDead:
+        markers.append(hostile)
+
+    for marker in markers:
+        offsetX = marker["x"] - playerX
+        if marker["y"] == markerY and offsetX >= -2 and offsetX <= 2:
+            markerIndex = round((offsetX + 2) * 23 / 4)
+            line[markerIndex] = f"{red}{bold}■{reset}{grey}"
+
+    return "".join(line)
 
 #test
 def testDrawRoom():

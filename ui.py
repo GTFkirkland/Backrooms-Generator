@@ -16,13 +16,12 @@ grey = '\033[90m'
 magenta = '\033[35m'
 lightYellow = '\033[93m'
 #functions
-def nextFrame(map, player, anomaly, size, roomSeen, hostile, hunt):
-    if hostile == player:
-        print(f'\n {bold}{grey}ADR {red}OFFLINE{reset}{grey} ┃ {bold}{grey}x: {red}?{reset} {bold}{grey}y: {red}?{reset}{grey}\n┏━━━━━━━━━━━━━━━━━━━━━━━━┓{reset}')
+def nextFrame(map, player, anomaly, size, roomSeen, hostile, hunt, playerDead=False):
+    if playerDead:
+        print(f'\n {bold}{grey}ADR {red}OFFLINE{reset}{grey} ┃ {bold}{grey}x: {red}?{reset} {bold}{grey}y: {red}?{reset}{grey}')
     else:
-        print(f'\n {bold}{grey}ADR {green}ONLINE{reset}{grey} ┃ {bold}{grey}x: {green}{player["x"]}{reset} {bold}{grey}y: {green}{size - player["y"]}{reset}{grey}\n┏━━━━━━━━━━━━━━━━━━━━━━━━┓{reset}')
-    drawRoom(map,player,"   ",f"{grey}┃{reset}",roomSeen,anomaly,hostile,hunt)
-    print(f"{grey}┗━━━━━━━━━━━━━━━━━━━━━━━━┛{reset}")
+        print(f'\n {bold}{grey}ADR {green}ONLINE{reset}{grey} ┃ {bold}{grey}x: {green}{player["x"]}{reset} {bold}{grey}y: {green}{size - player["y"]}{reset}{grey}')
+    drawRoom(map,player,"   ",f"{grey}┃{reset}",roomSeen,anomaly,hostile,hunt,playerDead)
     #anomaly
     anomalyDistance = abs(player["x"] - anomaly["x"]) + abs(player["y"] - anomaly["y"])
     if hostile != None and hunt:
