@@ -291,10 +291,12 @@ while player != anomaly:
             hostile = {
                 "x": ran.randint(max(0, player["x"] - round(size / 10)), min(size - 1, player["x"] + round(size / 10))),
                 "y": ran.randint(max(0, player["y"] - round(size / 10)), min(size - 1, player["y"] + round(size / 10)))}
-            while hostile == player:
+            hostileD = abs(player["x"] - hostile["x"]) + abs(player["y"] - hostile["y"])
+            while hostile == player or hostileD < 7:
                 hostile = {
                     "x": ran.randint(max(0, player["x"] - round(size / 10)), min(size - 1, player["x"] + round(size / 10))),
                     "y": ran.randint(max(0, player["y"] - round(size / 10)), min(size - 1, player["y"] + round(size / 10)))}
+                hostileD = abs(player["x"] - hostile["x"]) + abs(player["y"] - hostile["y"])
             hostilePreviousRoom = None
         
 
