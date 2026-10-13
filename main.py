@@ -101,29 +101,33 @@ time.sleep(1)
 
 #difficulty
 print("----------------------------------------")
-difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}Peaceful{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}N̴̫̈́̍Ỉ̸̪͒G̷̛̺̈H̴̺̙̏T̸̞͇̿M̷̮͘A̸̤͌͗R̷̼̹̾É̷̲̫{reset}\n{yellow}{bold}<Answer>> {reset}")
-if difficulty == "2":
+difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}{bold}Peaceful{reset}\n {bold}2){reset} {green}Very Easy{reset}\n {bold}3){reset} {cyan}Easy{reset}\n {bold}4){reset} {blue}Normal{reset}\n {bold}5){reset} {red}Hard{reset}\n {bold}6){reset} {magenta}Insane{reset}\n {bold}7){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}\n{yellow}{bold}<Answer>> {reset}")
+if difficulty == "2": #very easy
+    print(f"{green}{bold}Very Easy {reset}selected")
+    difficulty = "hostile"
+    subDifficulty = "easy"
+elif difficulty == "3": #easy
     print(f"{cyan}{bold}Easy {reset}selected")
     difficulty = "hostile"
     subDifficulty = "easy"
-elif difficulty == "3":
+elif difficulty == "4": #normal
     print(f"{blue}{bold}Normal {reset}selected")
     difficulty = "hostile"
     subDifficulty = "normal"
-elif difficulty == "4":
+elif difficulty == "5": #hard
     print(f"{red}{bold}Hard {reset}selected")
     difficulty = "hostile"
     subDifficulty = "hard"
-elif difficulty == "5":
-    print(f"{magenta}{bold}Insane {reset}selected")
+elif difficulty == "6": #insane
+    print(f"{magenta}Insane {reset}selected")
     difficulty = "hostile"
     subDifficulty = "insane"
-elif difficulty == "6":
-    print(f"{magenta}{bold}N̴̫̈́̍Ỉ̸̪͒G̷̛̺̈H̴̺̙̏T̸̞͇̿M̷̮͘A̸̤͌͗R̷̼̹̾É̷̲̫{reset}selected")
+elif difficulty == "7": #nightmare
+    print(f"{magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}selected")
     difficulty = "hostile"
     subDifficulty = "nightmare"
-else:
-    print(f"{green}{bold}Peaceful {reset}selected")
+else: #peaceful
+    print(f"{green}Peaceful {reset}selected")
     difficulty = "peaceful"
 time.sleep(1)
 
@@ -188,10 +192,14 @@ if difficulty == "hostile":
     story = input(f"{bold}{red}<!WARNING!>{reset}")
     story = input(f"{bold}{red}<!HOSTILE-PRESENSE-DETECTED!>{reset}")
     story = input(f"<Your {bold}{green}ADR {reset}isn't able to differentiate between {bold}{red}ANOMALIES{reset}>")
-    story = input(f"<Ensure the {bold}{red}ANOMALY{reset} you approach is... {bold}{green}CORRECT{reset}>")
+    story = input(f"<Choose your {bold}{red}ANOMALY{reset} with care — your {bold}{green}ADR{reset} displays every signal the same>")
 #hostile setup
 if difficulty == "hostile":
     #hunt chance based on difficulty
+    if subDifficulty == "veryEasy":
+        huntChance = [True] + [False] * 63 #1.5625% 1/64
+        huntLength = 10
+        grace = 30
     if subDifficulty == "easy":
         huntChance = [True] + [False] * 31 #3.125% 1/32
         huntLength = 18
