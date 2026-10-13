@@ -4,6 +4,7 @@
 #imports
 from rooms import drawRoom, testDrawRoom
 import os
+import tkinter as tk
 #colors and symbals
 reset = '\033[0m'
 red = '\033[31m' 

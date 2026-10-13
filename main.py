@@ -1,6 +1,7 @@
 #imports
 import random as ran
 import time as time
+import tkinter as tk
 from rooms import ranRoom
 from ui import nextFrame, clearTerminal
 from enemy import moveHostile
@@ -229,9 +230,7 @@ roomSeen = [player.copy()]
 while player != anomaly:
     
     if difficulty == "hostile" and hunt == False:
-        if grace > 0:
-            grace -= 1
-        else:
+        if grace <= 0:
             hunt = ran.choice(huntChance)
 
     clearTerminal()
@@ -251,6 +250,7 @@ while player != anomaly:
     
     #moving the player
     move = move.lower()
+    playerPositionBeforeMove = player.copy()
     if "w" in move:
         move = "w"
     elif "d" in move:
@@ -268,6 +268,9 @@ while player != anomaly:
         player["y"] += 1
     elif move == "a" and map[player["y"]][player["x"]][3] == True:
         player["x"] -= 1
+
+    if difficulty == "hostile" and not hunt and grace > 0 and player != playerPositionBeforeMove:
+        grace -= 1
 
     #room rememberance
     if player not in roomSeen:
