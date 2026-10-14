@@ -17,6 +17,7 @@ grey = '\033[37m'
 magenta = '\033[35m'
 lightYellow = '\033[93m'
 quit = False
+nightmareLock = True
 #GAMELOOP START
 while quit == False:
     #room connect func
@@ -105,7 +106,10 @@ while quit == False:
 
     #difficulty
     print("----------------------------------------")
-    difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}\n{yellow}{bold}<Answer>> {reset}")
+    if nightmareLock == True:
+        difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}\n{yellow}{bold}<Answer>> {reset}")
+    elif nightmareLock == False:
+        difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{grey} (Beat Insane to unlock this)\n{yellow}{bold}<Answer>> {reset}")
     if difficulty == "1": #very easy
         print(f"{green}{bold}Very Easy {reset}selected")
         difficulty = "hostile"
@@ -314,20 +318,31 @@ while quit == False:
         clearTerminal()
         nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt,True)
         time.sleep(2)
-        story = input(f"{red}{bold}<OBJECTIVE FAILED> [ENTER to continue]{reset}")
-        quit = input(f"{yellow}{bold}<RELOADING GAME...[ENTER to continue][EXIT to quit]>{reset}")
-        if quit == quit.upper() == "EXIT":
+        story = input(f"{red}{bold}<OBJECTIVE FAILED> {reset}{bold}[ENTER to continue]{reset}")
+        num = ran.randint(1000, 9999)
+        quit = input(f"{bold}{green}RELOADING GAME...{reset}{bold} [ec:{green}{num}{reset}{bold} to quit][ENTER to reload]{reset}\n")
+        if str(num) in quit:
             quit = True
         else:
             quit = False
             print("...")
             time.sleep(1)
+    
     elif player == anomaly: #escape
         clearTerminal()
-        story = input(f"{green}{bold}You leave the Rooms behind you as the portal takes you home... {yellow}[ENTER to continue]{reset}")
-        story = input(f"{green}{bold}<OBJECTIVE COMPLETE> [ENTER to continue]{reset}")
-        quit = input(f"{yellow}{bold}<RELOADING GAME...[ENTER to continue][EXIT to quit]>{reset}")
-        if quit.upper() == "EXIT":
+        #unlock nightmare if insane was beaten
+        if difficulty == "hostile":
+            if subDifficulty == "insane":
+                nightmareLock = False
+        
+        if subDifficulty == "nightmare":
+            story = input(f"{bold}The {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset} ends... {yellow}[ENTER to continue]{reset}")
+        else:
+            story = input(f"{bold}The Rooms now feel like a bad dream, after the portal took you home... {yellow}[ENTER to continue]{reset}")
+        story = input(f"{green}{bold}<OBJECTIVE COMPLETE> {reset}{bold}[ENTER to continue]{reset}")
+        num = ran.randint(1000, 9999)
+        quit = input(f"{bold}{green}RELOADING GAME...{reset}{bold} [ec:{green}{num}{reset}{bold} to quit][ENTER to reload]{reset}\n")
+        if str(num) in quit:
             quit = True
         else:
             quit = False
