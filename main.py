@@ -102,28 +102,28 @@ time.sleep(1)
 
 #difficulty
 print("----------------------------------------")
-difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}1){reset} {green}{bold}Peaceful{reset}\n {bold}2){reset} {green}Very Easy{reset}\n {bold}3){reset} {cyan}Easy{reset}\n {bold}4){reset} {blue}Normal{reset}\n {bold}5){reset} {red}Hard{reset}\n {bold}6){reset} {magenta}Insane{reset}\n {bold}7){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}\n{yellow}{bold}<Answer>> {reset}")
-if difficulty == "2": #very easy
+difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}\n{yellow}{bold}<Answer>> {reset}")
+if difficulty == "1": #very easy
     print(f"{green}{bold}Very Easy {reset}selected")
     difficulty = "hostile"
     subDifficulty = "easy"
-elif difficulty == "3": #easy
+elif difficulty == "2": #easy
     print(f"{cyan}{bold}Easy {reset}selected")
     difficulty = "hostile"
     subDifficulty = "easy"
-elif difficulty == "4": #normal
+elif difficulty == "3": #normal
     print(f"{blue}{bold}Normal {reset}selected")
     difficulty = "hostile"
     subDifficulty = "normal"
-elif difficulty == "5": #hard
+elif difficulty == "4": #hard
     print(f"{red}{bold}Hard {reset}selected")
     difficulty = "hostile"
     subDifficulty = "hard"
-elif difficulty == "6": #insane
+elif difficulty == "5": #insane
     print(f"{magenta}Insane {reset}selected")
     difficulty = "hostile"
     subDifficulty = "insane"
-elif difficulty == "7": #nightmare
+elif difficulty == "6": #nightmare
     print(f"{magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}selected")
     difficulty = "hostile"
     subDifficulty = "nightmare"
