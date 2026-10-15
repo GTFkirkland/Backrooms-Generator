@@ -96,15 +96,15 @@ while quit == False:
             subSubDifficulty = "1"
         #prints
         if subSubDifficulty == "1":
-            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E Ⅰ{reset} selected")
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗EⅠ{reset} selected")
         elif subSubDifficulty == "2":
-            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E ⅠⅠ{reset} selected")
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗EⅠⅠ{reset} selected")
         elif subSubDifficulty == "3":
-            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E ⅠⅠⅠ{reset} selected")
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗EⅠⅠⅠ{reset} selected")
         elif subSubDifficulty == "4":
-            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E ⅠⅤ{reset} selected")
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗EⅠⅤ{reset} selected")
         elif subSubDifficulty == "5":
-            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E Ⅴ{reset} selected")
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗EⅤ{reset} selected")
         difficulty = "hostile"
         subDifficulty = "nightmare"
 
