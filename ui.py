@@ -17,7 +17,7 @@ grey = '\033[90m'
 magenta = '\033[35m'
 lightYellow = '\033[93m'
 #functions
-def nextFrame(map, player, anomaly, size, roomSeen, hostile, hunt, playerDead=False):
+def nextFrame(map, player, anomaly, size, roomSeen, hostile, hunt, subSubDifficulty, playerDead=False):
     if playerDead:
         print(f'\n {bold}{grey}ADR {red}OFFLINE{reset}{grey} ┃ {bold}{grey}x: {red}?{reset} {bold}{grey}y: {red}?{reset}{grey}')
     else:
@@ -31,108 +31,111 @@ def nextFrame(map, player, anomaly, size, roomSeen, hostile, hunt, playerDead=Fa
         hostileDistance = 9999
     anomalyPrint = ""
     #anomaly detection
-    if player != hostile:
-        if anomalyDistance <= hostileDistance:
-            if anomalyDistance <= 2:
-                anomalyPrint = f"{green}{bold}!)▪▪▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH {green}[{anomalyPrint}{green}]{grey}{reset}")
-            elif anomalyDistance <= 5:
-                anomalyPrint = f"{green}{bold}10▪▪▪▪▪{grey}▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 10:
-                anomalyPrint = f"{green}{bold}09▪▪▪▪▪{grey}▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 15:
-                anomalyPrint = f"{green}{bold}08▪▪▪▪{grey}▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 20:
-                anomalyPrint = f"{green}{bold}07▪▪▪▪{grey}▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 25:
-                anomalyPrint = f"{green}{bold}06▪▪▪{grey}▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 30:
-                anomalyPrint = f"{green}{bold}05▪▪▪{grey}▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 35:
-                anomalyPrint = f"{green}{bold}04▪▪{grey}▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 40:
-                anomalyPrint = f"{green}{bold}03▪▪{grey}▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 45:
-                anomalyPrint = f"{green}{bold}02▪{grey}▪▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
-            elif anomalyDistance <= 50:
-                anomalyPrint = f"{green}{bold}01▪{grey}▪▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+    if subSubDifficulty in ["0", "1", "2"]:
+        if player != hostile:
+            if anomalyDistance <= hostileDistance:
+                if anomalyDistance <= 2:
+                    anomalyPrint = f"{green}{bold}!)▪▪▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH {green}[{anomalyPrint}{green}]{grey}{reset}")
+                elif anomalyDistance <= 5:
+                    anomalyPrint = f"{green}{bold}10▪▪▪▪▪{grey}▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 10:
+                    anomalyPrint = f"{green}{bold}09▪▪▪▪▪{grey}▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 15:
+                    anomalyPrint = f"{green}{bold}08▪▪▪▪{grey}▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 20:
+                    anomalyPrint = f"{green}{bold}07▪▪▪▪{grey}▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 25:
+                    anomalyPrint = f"{green}{bold}06▪▪▪{grey}▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 30:
+                    anomalyPrint = f"{green}{bold}05▪▪▪{grey}▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 35:
+                    anomalyPrint = f"{green}{bold}04▪▪{grey}▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 40:
+                    anomalyPrint = f"{green}{bold}03▪▪{grey}▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 45:
+                    anomalyPrint = f"{green}{bold}02▪{grey}▪▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                elif anomalyDistance <= 50:
+                    anomalyPrint = f"{green}{bold}01▪{grey}▪▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{anomalyPrint}{grey}]{reset}")
+                else:
+                    if player["y"] < anomaly["y"]:
+                        cardinalPrint = "South"
+                    elif player["y"] > anomaly["y"]:
+                        cardinalPrint = "North"
+                    else:
+                        cardinalPrint = ""
+                    
+                    if player["x"] < anomaly["x"]:
+                        cardinalPrint += "east"
+                    elif player["x"] > anomaly["x"]:
+                        cardinalPrint += "west"
+                    else:
+                        cardinalPrint += ""
+                    anomalyPrint = f"{grey}<anomaly detected {green}{cardinalPrint}{grey}>"
+                    print(f"{bold}{anomalyPrint}{reset}")
             else:
-                if player["y"] < anomaly["y"]:
-                    cardinalPrint = "South"
-                elif player["y"] > anomaly["y"]:
-                    cardinalPrint = "North"
+                if hostileDistance <= 2:
+                    hostilePrint = f"{green}{bold}!)▪▪▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH {green}[{hostilePrint}{green}]{grey}{reset}")
+                elif hostileDistance <= 5:
+                    hostilePrint = f"{green}{bold}10▪▪▪▪▪{grey}▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 10:
+                    hostilePrint = f"{green}{bold}09▪▪▪▪▪{grey}▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 15:
+                    hostilePrint = f"{green}{bold}08▪▪▪▪{grey}▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 20:
+                    hostilePrint = f"{green}{bold}07▪▪▪▪{grey}▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 25:
+                    hostilePrint = f"{green}{bold}06▪▪▪{grey}▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 30:
+                    hostilePrint = f"{green}{bold}05▪▪▪{grey}▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 35:
+                    hostilePrint = f"{green}{bold}04▪▪{grey}▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 40:
+                    hostilePrint = f"{green}{bold}03▪▪{grey}▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 45:
+                    hostilePrint = f"{green}{bold}02▪{grey}▪▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
+                elif hostileDistance <= 50:
+                    hostilePrint = f"{green}{bold}01▪{grey}▪▪▪▪▪{reset}"
+                    print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
                 else:
-                    cardinalPrint = ""
-                
-                if player["x"] < anomaly["x"]:
-                    cardinalPrint += "east"
-                elif player["x"] > anomaly["x"]:
-                    cardinalPrint += "west"
-                else:
-                    cardinalPrint += ""
-                anomalyPrint = f"{grey}<anomaly detected {green}{cardinalPrint}{grey}>"
-                print(f"{bold}{anomalyPrint}{reset}")
+                    if player["y"] < hostile["y"]:
+                        cardinalPrint = "South"
+                    elif player["y"] > hostile["y"]:
+                        cardinalPrint = "North"
+                    else:
+                        cardinalPrint = ""
+                    
+                    if player["x"] < hostile["x"]:
+                        cardinalPrint += "east"
+                    elif player["x"] > hostile["x"]:
+                        cardinalPrint += "west"
+                    else:
+                        cardinalPrint += ""
+                    hostilePrint = f"{grey}<Hostile detected {green}{cardinalPrint}{grey}>"
+                    print(f"{bold}{hostilePrint}{reset}")
         else:
-            if hostileDistance <= 2:
-                hostilePrint = f"{green}{bold}!)▪▪▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH {green}[{hostilePrint}{green}]{grey}{reset}")
-            elif hostileDistance <= 5:
-                hostilePrint = f"{green}{bold}10▪▪▪▪▪{grey}▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 10:
-                hostilePrint = f"{green}{bold}09▪▪▪▪▪{grey}▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 15:
-                hostilePrint = f"{green}{bold}08▪▪▪▪{grey}▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 20:
-                hostilePrint = f"{green}{bold}07▪▪▪▪{grey}▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 25:
-                hostilePrint = f"{green}{bold}06▪▪▪{grey}▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 30:
-                hostilePrint = f"{green}{bold}05▪▪▪{grey}▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 35:
-                hostilePrint = f"{green}{bold}04▪▪{grey}▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 40:
-                hostilePrint = f"{green}{bold}03▪▪{grey}▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 45:
-                hostilePrint = f"{green}{bold}02▪{grey}▪▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            elif hostileDistance <= 50:
-                hostilePrint = f"{green}{bold}01▪{grey}▪▪▪▪▪{reset}"
-                print(f"{bold}{grey}SIGNAL-STRENGTH [{green}{hostilePrint}{grey}]{reset}")
-            else:
-                if player["y"] < hostile["y"]:
-                    cardinalPrint = "South"
-                elif player["y"] > hostile["y"]:
-                    cardinalPrint = "North"
-                else:
-                    cardinalPrint = ""
-                
-                if player["x"] < hostile["x"]:
-                    cardinalPrint += "east"
-                elif player["x"] > hostile["x"]:
-                    cardinalPrint += "west"
-                else:
-                    cardinalPrint += ""
-                hostilePrint = f"{grey}<Hostile detected {green}{cardinalPrint}{grey}>"
-                print(f"{bold}{hostilePrint}{reset}")
+            print(f"{red}{bold}<SIGNAL-NOT-FOUND>{reset}")
     else:
-        print(f"{red}{bold}<SIGNAL-NOT-FOUND>{reset}")
+        print(f"{grey}{bold}<SIGNAL-INTERFERENCE-PRESENT>{reset}")
 def clearTerminal():
     os.system('cls' if os.name == 'nt' else 'clear')

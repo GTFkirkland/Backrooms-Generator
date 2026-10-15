@@ -20,8 +20,8 @@ lightYellow = '\033[93m'
 
 #variable setups
 quit = False
-nightmareLock = False
-nightmareTiersUnlocked = ["1", "2", "3", "4", "5"]
+nightmareLock = True
+nightmareTiersUnlocked = []
 #GAMELOOP START
 while quit == False:
     #map choice (START)
@@ -50,6 +50,7 @@ while quit == False:
 
     #difficulty
     print("----------------------------------------")
+    subSubDifficulty = "0"
     if nightmareLock == False:
         difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {red}{bold}Insane{reset}\n {bold}6){reset} {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n{yellow}{bold}<Answer>> {reset}")
     else:
@@ -165,7 +166,7 @@ while quit == False:
     connectRooms(map)
     
     #intro toggle         
-    introToggle = input(f"Skip the intro? {bold}{red}y{grey}/{green}n\n")
+    introToggle = input(f"Skip the intro? {bold}{red}y{grey}/{green}n{reset}\n")
     if "y" in introToggle.lower():
         skipIntro = True
     else:
@@ -237,7 +238,7 @@ while quit == False:
                 hunt = ran.choice(huntChance)
 
         clearTerminal()
-        nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)
+        nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False,subSubDifficulty)
         #movement reception
         move = input(f"{yellow}{bold}<Move>> {reset}")
         try:
@@ -248,7 +249,7 @@ while quit == False:
             print(f"{red}{bold}INVALID{reset}")
             time.sleep(0.2)
             clearTerminal()
-            nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False)
+            nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt if difficulty == "hostile" else False,subSubDifficulty)
             move = input(f"{yellow}{bold}<Move>> {reset}")
         
         #moving the player
@@ -310,7 +311,7 @@ while quit == False:
     #end
     if difficulty == "hostile" and player == hostile: #death
         clearTerminal()
-        nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt,True)
+        nextFrame(map,player,anomaly,size,roomSeen,hostile,hunt, subSubDifficulty, True)
         time.sleep(2)
         story = input(f"{red}{bold}<OBJECTIVE FAILED> {reset}{bold}[ENTER to continue]{reset}")
         num = ran.randint(1000, 9999)
@@ -326,20 +327,21 @@ while quit == False:
         clearTerminal()
         #unlock nightmare if insane was beaten, and unlock nightmare tiers if nightmare was beaten
         if difficulty == "hostile":
-            if subDifficulty == "insane":
+            if subDifficulty == "insane" and sizeChoice in ["4", "5", "6"]:
                 nightmareLock = False
                 if "1" not in nightmareTiersUnlocked:
                     nightmareTiersUnlocked.append("1")
             
             if subDifficulty == "nightmare":
-                if subSubDifficulty == "1" and "2" not in nightmareTiersUnlocked:
-                    nightmareTiersUnlocked.append("2")
-                elif subSubDifficulty == "2" and "3" not in nightmareTiersUnlocked:
-                    nightmareTiersUnlocked.append("3")
-                elif subSubDifficulty == "3" and "4" not in nightmareTiersUnlocked:
-                    nightmareTiersUnlocked.append("4") 
-                elif subSubDifficulty == "4" and "5" not in nightmareTiersUnlocked:
-                    nightmareTiersUnlocked.append("5")
+                if sizeChoice in ["4", "5", "6"]:
+                    if subSubDifficulty == "1" and "2" not in nightmareTiersUnlocked:
+                        nightmareTiersUnlocked.append("2")
+                    elif subSubDifficulty == "2" and "3" not in nightmareTiersUnlocked:
+                        nightmareTiersUnlocked.append("3")
+                    elif subSubDifficulty == "3" and "4" not in nightmareTiersUnlocked:
+                        nightmareTiersUnlocked.append("4") 
+                    elif subSubDifficulty == "4" and "5" not in nightmareTiersUnlocked:
+                        nightmareTiersUnlocked.append("5")
         
         if subDifficulty == "nightmare":
             story = input(f"{bold}The {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset} ends... {yellow}[ENTER to continue]{reset}")
