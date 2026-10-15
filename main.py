@@ -21,7 +21,7 @@ lightYellow = '\033[93m'
 #variable setups
 quit = False
 nightmareLock = False
-nightmareTiersUnlocked = ["1", "2", "3", "4",]
+nightmareTiersUnlocked = ["1", "2", "3", "4", "5"]
 #GAMELOOP START
 while quit == False:
     #map choice (START)
