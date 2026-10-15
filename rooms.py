@@ -9,6 +9,8 @@ blue = '\033[34m'
 cyan = '\033[36m' 
 bold = '\033[1m'
 grey = '\033[90m'
+magenta = '\033[35m'
+lightYellow = '\033[93m'
 #functions
 def drawRoom(map, player, spaces, border, roomSeen, anomaly, hostile, hunt, playerDead=False):
     y = player["y"]
@@ -106,6 +108,65 @@ def _borderWithMarkers(playerX, markerY, anomaly, hostile, hunt, playerDead):
             line[markerIndex] = f"{red}{bold}■{reset}{grey}"
 
     return "".join(line)
+
+def connectRooms(roomMap):
+    for row in roomMap:
+        for room in row:
+            room[:] = [False, False, False, False]
+
+    width = len(roomMap[0])
+    visited = [[False for room in row] for row in roomMap]
+    visited[0][0] = True
+    path = [0]
+
+    while path:
+        position = path[-1]
+        x = position % width
+        y = position // width
+        neighbors = []
+
+        if y > 0 and not visited[y - 1][x]:
+            neighbors.append(0)
+        if x + 1 < width and not visited[y][x + 1]:
+            neighbors.append(1)
+        if y + 1 < len(roomMap) and not visited[y + 1][x]:
+            neighbors.append(2)
+        if x > 0 and not visited[y][x - 1]:
+            neighbors.append(3)
+
+        if not neighbors:
+            path.pop()
+            continue
+
+        direction = ran.choice(neighbors)
+        nextX = x
+        nextY = y
+        door = direction
+        oppositeDoor = (direction + 2) % 4
+
+        if direction == 0:
+            nextY -= 1
+        elif direction == 1:
+            nextX += 1
+        elif direction == 2:
+            nextY += 1
+        else:
+            nextX -= 1
+
+        roomMap[y][x][door] = True
+        roomMap[nextY][nextX][oppositeDoor] = True
+        visited[nextY][nextX] = True
+        path.append(nextY * width + nextX)
+
+    for y, row in enumerate(roomMap):
+        for x, room in enumerate(row):
+            if x + 1 < len(row) and not room[1] and ran.random() < 0.25:
+                room[1] = True
+                row[x + 1][3] = True
+
+            if y + 1 < len(roomMap) and not room[2] and ran.random() < 0.25:
+                room[2] = True
+                roomMap[y + 1][x][0] = True
 
 #test
 def testDrawRoom():

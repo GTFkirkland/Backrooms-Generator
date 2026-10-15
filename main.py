@@ -2,9 +2,10 @@
 import random as ran
 import time as time
 import tkinter as tk
-from rooms import ranRoom
+from rooms import ranRoom, connectRooms
 from ui import nextFrame, clearTerminal
 from enemy import moveHostile
+
 #colors and symbols
 reset = '\033[0m'
 red = '\033[31m' 
@@ -13,73 +14,16 @@ yellow = '\033[33m'
 blue = '\033[34m' 
 cyan = '\033[36m' 
 bold = '\033[1m'
-grey = '\033[37m'
+grey = '\033[90m'
 magenta = '\033[35m'
 lightYellow = '\033[93m'
+
+#variable setups
 quit = False
-nightmareLock = True
+nightmareLock = False
+nightmareTiersUnlocked = ["1", "2", "3", "4",]
 #GAMELOOP START
 while quit == False:
-    #room connect func
-    def connectRooms(roomMap):
-        for row in roomMap:
-            for room in row:
-                room[:] = [False, False, False, False]
-
-        width = len(roomMap[0])
-        visited = [[False for room in row] for row in roomMap]
-        visited[0][0] = True
-        path = [0]
-
-        while path:
-            position = path[-1]
-            x = position % width
-            y = position // width
-            neighbors = []
-
-            if y > 0 and not visited[y - 1][x]:
-                neighbors.append(0)
-            if x + 1 < width and not visited[y][x + 1]:
-                neighbors.append(1)
-            if y + 1 < len(roomMap) and not visited[y + 1][x]:
-                neighbors.append(2)
-            if x > 0 and not visited[y][x - 1]:
-                neighbors.append(3)
-
-            if not neighbors:
-                path.pop()
-                continue
-
-            direction = ran.choice(neighbors)
-            nextX = x
-            nextY = y
-            door = direction
-            oppositeDoor = (direction + 2) % 4
-
-            if direction == 0:
-                nextY -= 1
-            elif direction == 1:
-                nextX += 1
-            elif direction == 2:
-                nextY += 1
-            else:
-                nextX -= 1
-
-            roomMap[y][x][door] = True
-            roomMap[nextY][nextX][oppositeDoor] = True
-            visited[nextY][nextX] = True
-            path.append(nextY * width + nextX)
-
-        for y, row in enumerate(roomMap):
-            for x, room in enumerate(row):
-                if x + 1 < len(row) and not room[1] and ran.random() < 0.25:
-                    room[1] = True
-                    row[x + 1][3] = True
-
-                if y + 1 < len(roomMap) and not room[2] and ran.random() < 0.25:
-                    room[2] = True
-                    roomMap[y + 1][x][0] = True
-
     #map choice (START)
     clearTerminal()
     print("{==============Game=Setup==============}")
@@ -106,10 +50,14 @@ while quit == False:
 
     #difficulty
     print("----------------------------------------")
-    if nightmareLock == True:
-        difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}\n{yellow}{bold}<Answer>> {reset}")
-    elif nightmareLock == False:
-        difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {magenta}Insane{reset}\n {bold}6){reset} {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{grey} (Beat Insane to unlock this)\n{yellow}{bold}<Answer>> {reset}")
+    if nightmareLock == False:
+        difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {red}{bold}Insane{reset}\n {bold}6){reset} {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n{yellow}{bold}<Answer>> {reset}")
+    else:
+        if sizeChoice == "3" or sizeChoice == "4" or sizeChoice == "5" or sizeChoice == "6":
+            difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {red}{bold}Insane{reset}\n{bold}{grey}🔒︎) <Unlock by escaping on Insane>\n{yellow}{bold}<Answer>> {reset}")
+        else:
+            difficulty = input(f"Choose the {bold}{red}Rooms'{reset} difficulty:\n {bold}0){reset} {green}{bold}Peaceful{reset}\n {bold}1){reset} {green}Very Easy{reset}\n {bold}2){reset} {cyan}Easy{reset}\n {bold}3){reset} {blue}Normal{reset}\n {bold}4){reset} {red}Hard{reset}\n {bold}5){reset} {red}{bold}Insane{reset}\n{bold}{grey}🔒︎) <Unlock by escaping on Insane, at size Small or larger>\n{yellow}{bold}<Answer>> {reset}")
+    
     if difficulty == "1": #very easy
         print(f"{green}{bold}Very Easy {reset}selected")
         difficulty = "hostile"
@@ -127,16 +75,43 @@ while quit == False:
         difficulty = "hostile"
         subDifficulty = "hard"
     elif difficulty == "5": #insane
-        print(f"{magenta}Insane {reset}selected")
+        print(f"{red}{bold}Insane {reset}selected")
         difficulty = "hostile"
         subDifficulty = "insane"
-    elif difficulty == "6": #nightmare
-        print(f"{magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset}selected")
+    elif difficulty == "6" and nightmareLock == False: #nightmare
+        print("----------------------------------------")
+        time.sleep(1)
+        #extra tiers
+        if "5" in nightmareTiersUnlocked:
+            subSubDifficulty = input(f"Select the subtier of {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n 1) {magenta}Tier Ⅰ {reset}- {red}35% hunt chance{reset}\n 2) {magenta}Tier ⅠⅠ {reset}- {red}50% hunt chance{reset}\n 3) {magenta}Tier ⅠⅠⅠ {reset}- {red}65% hunt chance & no anomaly signal{reset}\n 4) {magenta}Tier ⅠⅤ {reset}- {red}80% hunt chance & no anomaly signal{reset}\n 5) {magenta}Tier Ⅴ {reset}- {red}100% hunt chance & no anomaly signal{reset}\n{yellow}{bold}<Answer>> {reset}")
+        elif "4" in nightmareTiersUnlocked:
+            subSubDifficulty = input(f"Select the subtier of {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n 1) {magenta}Tier Ⅰ {reset}- {red}35% hunt chance{reset}\n 2) {magenta}Tier ⅠⅠ {reset}- {red}50% hunt chance{reset}\n 3) {magenta}Tier ⅠⅠⅠ {reset}- {red}65% hunt chance & no anomaly signal{reset}\n 4) {magenta}Tier ⅠⅤ {reset}- {red}80% hunt chance & no anomaly signal{reset}\n{grey}🔒︎) Tier Ⅴ - Unlock by escaping on Tier ⅠⅤ\n{yellow}{bold}<Answer>> {reset}")
+        elif "3" in nightmareTiersUnlocked:
+            subSubDifficulty = input(f"Select the subtier of {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n 1) {magenta}Tier Ⅰ {reset}- {red}35% hunt chance{reset}\n 2) {magenta}Tier ⅠⅠ {reset}- {red}50% hunt chance{reset}\n 3) {magenta}Tier ⅠⅠⅠ {reset}- {red}65% hunt chance & no anomaly signal{reset}\n{grey}🔒︎) Tier ⅠⅤ - Unlock by escaping on Tier ⅠⅠⅠ\n{grey}🔒︎) Tier Ⅴ - Unlock by escaping on Tier ⅠⅤ\n{yellow}{bold}<Answer>> {reset}")
+        elif "2" in nightmareTiersUnlocked:
+            subSubDifficulty = input(f"Select the subtier of {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n 1) {magenta}Tier Ⅰ {reset}- {red}35% hunt chance{reset}\n 2) {magenta}Tier ⅠⅠ {reset}- {red}50% hunt chance{reset}\n{grey}🔒︎) Tier ⅠⅠⅠ - Unlock by escaping on Tier ⅠⅠ\n{grey}🔒︎) Tier ⅠⅤ - Unlock by escaping on Tier ⅠⅠⅠ\n{grey}🔒︎) Tier Ⅴ - Unlock by escaping on Tier ⅠⅤ\n{yellow}{bold}<Answer>> {reset}")
+        elif "1" in nightmareTiersUnlocked:
+            subSubDifficulty = input(f"Select the subtier of {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset}\n 1) {magenta}Tier Ⅰ {reset}- {red}35% hunt chance{reset}\n{grey}🔒︎) Tier ⅠⅠ - Unlock by escaping on Tier Ⅰ\n{grey}🔒︎) Tier ⅠⅠⅠ - Unlock by escaping on Tier ⅠⅠ\n{grey}🔒︎) Tier ⅠⅤ - Unlock by escaping on Tier ⅠⅠⅠ\n{grey}🔒︎) Tier Ⅴ - Unlock by escaping on Tier ⅠⅤ\n{yellow}{bold}<Answer>> {reset}")
+        if subSubDifficulty not in nightmareTiersUnlocked:
+            subSubDifficulty = "1"
+        #prints
+        if subSubDifficulty == "1":
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E Ⅰ{reset} selected")
+        elif subSubDifficulty == "2":
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E ⅠⅠ{reset} selected")
+        elif subSubDifficulty == "3":
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E ⅠⅠⅠ{reset} selected")
+        elif subSubDifficulty == "4":
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E ⅠⅤ{reset} selected")
+        elif subSubDifficulty == "5":
+            print(f"{magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E Ⅴ{reset} selected")
         difficulty = "hostile"
         subDifficulty = "nightmare"
+
     else: #peaceful
         print(f"{green}Peaceful {reset}selected")
         difficulty = "peaceful"
+    print("----------------------------------------")
     time.sleep(1)
 
     #exit, enemy placement, and player placement
@@ -161,10 +136,12 @@ while quit == False:
             }
         else:
             hostile = None
+    
     #map setup
     map = []
     for i in range(size):
         map.append([])
+    
     #map generation
     for k in range(len(map)): #collumn
         mapGenComplete = False
@@ -185,22 +162,30 @@ while quit == False:
                         mapGenComplete = True
                         break
         map[k] = rowPreview
-
     connectRooms(map)
-                
+    
+    #intro toggle         
+    introToggle = input(f"Skip the intro? {bold}{red}y{grey}/{green}n\n")
+    if "y" in introToggle.lower():
+        skipIntro = True
+    else:
+        skipIntro = False
+    
     #intro
     clearTerminal()
-    story = input(f"{red}{bold}Suddenly... {yellow}[ENTER to continue]{reset}")
-    story = input(f"you find yourself {bold}{red}falling{reset} through the ground you were standing on. {bold}{yellow}[ENTER to continue]{reset}")
-    story = input(f"When you land, you seem to be in a nearly {bold}{red}infinite maze of rooms{reset}, {bold}{yellow}[ENTER to continue]{reset}")
-    story = input(f"but you know exactly how to {bold}{red}escape{reset} from them. {bold}{yellow}[ENTER to continue]{reset}")
-    story = input(f"{bold}Obviously, you can use your {bold}{green}Anomaly Detection Radar{reset} to find a way back. {bold}{yellow}[ENTER to continue]{reset}")
-    story = input(f"{bold}{red}OBJECTIVE:{reset} Use your {bold}{green}ADR{reset} to find a way out {red}{bold}[ENTER to begin]{reset}")
-    if difficulty == "hostile":
-        story = input(f"{bold}{red}<!WARNING!>{reset}")
-        story = input(f"{bold}{red}<!HOSTILE-PRESENSE-DETECTED!>{reset}")
-        story = input(f"<Your {bold}{green}ADR {reset}isn't able to differentiate between {bold}{red}ANOMALIES{reset}>")
-        story = input(f"<Choose your {bold}{red}ANOMALY{reset} with care — your {bold}{green}ADR{reset} displays every signal the same>")
+    if skipIntro == False:
+        story = input(f"{red}{bold}Suddenly... {yellow}[ENTER to continue]{reset}")
+        story = input(f"you find yourself {bold}{red}falling{reset} through the ground you were standing on. {bold}{yellow}[ENTER to continue]{reset}")
+        story = input(f"When you land, you seem to be in a nearly {bold}{red}infinite maze of rooms{reset}, {bold}{yellow}[ENTER to continue]{reset}")
+        story = input(f"but you know exactly how to {bold}{red}escape{reset} from them. {bold}{yellow}[ENTER to continue]{reset}")
+        story = input(f"{bold}Obviously, you can use your {bold}{green}Anomaly Detection Radar{reset} to find a way back. {bold}{yellow}[ENTER to continue]{reset}")
+        story = input(f"{bold}{red}OBJECTIVE:{reset} Use your {bold}{green}ADR{reset} to find a way out {red}{bold}[ENTER to begin]{reset}")
+        if difficulty == "hostile":
+            story = input(f"{bold}{red}<!WARNING!>{reset}")
+            story = input(f"{bold}{red}<!HOSTILE-PRESENSE-DETECTED!>{reset}")
+            story = input(f"<Your {bold}{green}ADR {reset}isn't able to differentiate between {bold}{red}ANOMALIES{reset}>")
+            story = input(f"<Choose your {bold}{red}ANOMALY{reset} with care — your {bold}{green}ADR{reset} displays every signal the same>")
+    
     #hostile setup
     if difficulty == "hostile":
         #hunt chance based on difficulty
@@ -225,12 +210,23 @@ while quit == False:
             huntLength = 42
             grace = 10
         if subDifficulty == "nightmare":
-            huntChance = [True, False] #50% 1/2
+            if subSubDifficulty == "1":
+                huntChance = ([True] * 7 + [False] * 13) #35%
+            elif subSubDifficulty == "2":
+                huntChance = [True, False] #50%
+            elif subSubDifficulty == "3":
+                huntChance = ([True] * 13) + ([False] * 7) #65%
+            elif subSubDifficulty == "4":
+                huntChance = [True, True, True, True, False] #80%
+            elif subSubDifficulty == "5":
+                huntChance = [True] * 10 #100%
             huntLength = 50
             grace = 5
+        
         #hunt timer setup
         hunt = False
         huntTurnsRemaining = huntLength
+    
     #play game
     hostilePreviousRoom = None
     roomSeen = [player.copy()]
@@ -311,8 +307,6 @@ while quit == False:
             
 
                 
-
-
     #end
     if difficulty == "hostile" and player == hostile: #death
         clearTerminal()
@@ -330,13 +324,25 @@ while quit == False:
     
     elif player == anomaly: #escape
         clearTerminal()
-        #unlock nightmare if insane was beaten
+        #unlock nightmare if insane was beaten, and unlock nightmare tiers if nightmare was beaten
         if difficulty == "hostile":
             if subDifficulty == "insane":
                 nightmareLock = False
+                if "1" not in nightmareTiersUnlocked:
+                    nightmareTiersUnlocked.append("1")
+            
+            if subDifficulty == "nightmare":
+                if subSubDifficulty == "1" and "2" not in nightmareTiersUnlocked:
+                    nightmareTiersUnlocked.append("2")
+                elif subSubDifficulty == "2" and "3" not in nightmareTiersUnlocked:
+                    nightmareTiersUnlocked.append("3")
+                elif subSubDifficulty == "3" and "4" not in nightmareTiersUnlocked:
+                    nightmareTiersUnlocked.append("4") 
+                elif subSubDifficulty == "4" and "5" not in nightmareTiersUnlocked:
+                    nightmareTiersUnlocked.append("5")
         
         if subDifficulty == "nightmare":
-            story = input(f"{bold}The {magenta}Ň̶̞I̴̘͒G̶̞̃H̶͍̕T̴͖̕M̸̰̿Ạ̷͋R̵̰͌E̶̥͋{reset} ends... {yellow}[ENTER to continue]{reset}")
+            story = input(f"{bold}The {magenta}N̸̯͝I̷̞̎G̶̗͒Ȟ̵̭T̵̳̂M̷̨̓Å̶̦R̵̺͗E{reset} ends... {yellow}[ENTER to continue]{reset}")
         else:
             story = input(f"{bold}The Rooms now feel like a bad dream, after the portal took you home... {yellow}[ENTER to continue]{reset}")
         story = input(f"{green}{bold}<OBJECTIVE COMPLETE> {reset}{bold}[ENTER to continue]{reset}")
