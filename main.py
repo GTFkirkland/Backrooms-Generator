@@ -27,7 +27,7 @@ while quit == False:
     #map choice (START)
     clearTerminal()
     print("{==============Game=Setup==============}")
-    sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{red} Huge {reset}\n {bold}6){reset}{magenta} Massive {reset}\n{bold}{yellow}<Answer>> {reset}")
+    sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{lightYellow} Huge {reset}\n {bold}6){reset}{red} Massive {reset}\n {bold}7){reset}{red} Colossal {reset}\n {bold}8){reset}{magenta} Titanic {reset}\n {bold}9){reset}{magenta} Celestial {reset}\n{bold}{yellow}<Answer>> {reset}")
     if sizeChoice == "2":
         size = 50
         print(f"{cyan}Tiny {reset}selected")
@@ -39,10 +39,19 @@ while quit == False:
         print(f"{lightYellow}Large {reset}selected")
     elif sizeChoice == "5":
         size = 180
-        print(f"{red}Huge {reset}selected")
+        print(f"{lightYellow}Huge {reset}selected")
     elif sizeChoice == "6":
         size = 270
-        print(f"{magenta}Massive {reset}selected")
+        print(f"{red}Massive {reset}selected")
+    elif sizeChoice == "7":
+        size = 400
+        print(f"{red}Colossal {reset}selected")
+    elif sizeChoice == "8":
+        size = 1000
+        print(f"{magenta}Titanic {reset}selected")
+    elif sizeChoice == "9":
+        size = 2000
+        print(f"{magenta}Celestial {reset}selected")
     else:
         size = 20
         print(f"{blue}Minuscule {reset}selected")
@@ -114,7 +123,8 @@ while quit == False:
         difficulty = "peaceful"
     print("----------------------------------------")
     time.sleep(1)
-
+    #loading
+    print(f"{bold}{green}Generating map...{reset}")
     #exit, enemy placement, and player placement
     player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
     anomaly = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
@@ -328,13 +338,13 @@ while quit == False:
         clearTerminal()
         #unlock nightmare if insane was beaten, and unlock nightmare tiers if nightmare was beaten
         if difficulty == "hostile":
-            if subDifficulty == "insane" and sizeChoice in ["3","4", "5", "6"]:
+            if subDifficulty == "insane" and sizeChoice in ["3", "4", "5", "6", "7", "8"]:
                 nightmareLock = False
                 if "1" not in nightmareTiersUnlocked:
                     nightmareTiersUnlocked.append("1")
             
             if subDifficulty == "nightmare":
-                if sizeChoice in ["4", "5", "6"]:
+                if sizeChoice in ["3", "4", "5", "6", "7", "8"]:
                     if subSubDifficulty == "1" and "2" not in nightmareTiersUnlocked:
                         nightmareTiersUnlocked.append("2")
                     elif subSubDifficulty == "2" and "3" not in nightmareTiersUnlocked:
