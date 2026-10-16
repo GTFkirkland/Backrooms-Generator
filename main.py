@@ -270,6 +270,7 @@ while quit == False:
             player["x"] += 1
         elif move == "s" and map[player["y"]][player["x"]][2] == True:
             player["y"] += 1
+
         elif move == "a" and map[player["y"]][player["x"]][3] == True:
             player["x"] -= 1
 
@@ -327,7 +328,7 @@ while quit == False:
         clearTerminal()
         #unlock nightmare if insane was beaten, and unlock nightmare tiers if nightmare was beaten
         if difficulty == "hostile":
-            if subDifficulty == "insane" and sizeChoice in ["4", "5", "6"]:
+            if subDifficulty == "insane" and sizeChoice in ["3","4", "5", "6"]:
                 nightmareLock = False
                 if "1" not in nightmareTiersUnlocked:
                     nightmareTiersUnlocked.append("1")
