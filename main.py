@@ -27,7 +27,7 @@ while quit == False:
     #map choice (START)
     clearTerminal()
     print("{==============Game=Setup==============}")
-    sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{lightYellow} Huge {reset}\n {bold}6){reset}{red} Massive {reset}\n {bold}7){reset}{red} Colossal {reset}\n {bold}8){reset}{magenta} Titanic {reset}\n {bold}9){reset}{magenta} Celestial {reset}\n{bold}{yellow}<Answer>> {reset}")
+    sizeChoice = input(f"{bold}Select the game size:\n {bold}1){reset}{blue} Minuscule{reset}\n {bold}2){reset}{cyan} Tiny{reset}\n {bold}3){reset}{green} Small{reset}\n {bold}4){reset}{lightYellow} Large{reset}\n {bold}5){reset}{lightYellow} Huge {reset}\n {bold}6){reset}{red} Massive {reset}\n {bold}7){reset}{red} Colossal {reset}\n {bold}{grey}<Some devices will struggle to generate the sizes below>{reset}\n {bold}8){reset}{magenta} Titanic {reset}\n {bold}9){reset}{magenta} Celestial {reset}\n{bold}{yellow}<Answer>> {reset}")
     if sizeChoice == "2":
         size = 50
         print(f"{cyan}Tiny {reset}selected")
@@ -50,7 +50,7 @@ while quit == False:
         size = 1000
         print(f"{magenta}Titanic {reset}selected")
     elif sizeChoice == "9":
-        size = 2000
+        size = 3000
         print(f"{magenta}Celestial {reset}selected")
     else:
         size = 20
@@ -124,6 +124,7 @@ while quit == False:
     print("----------------------------------------")
     time.sleep(1)
     #loading
+    
     print(f"{bold}{green}Generating map...{reset}")
     #exit, enemy placement, and player placement
     player = {"x":ran.randint(0,size-1), "y":ran.randint(0,size-1)}
@@ -176,6 +177,7 @@ while quit == False:
     connectRooms(map)
     
     #intro toggle         
+    print("----------------------------------------")
     introToggle = input(f"Skip the intro? {bold}{red}y{grey}/{green}n{reset}\n")
     if "y" in introToggle.lower():
         skipIntro = True
