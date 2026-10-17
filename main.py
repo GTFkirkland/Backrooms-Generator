@@ -20,8 +20,8 @@ lightYellow = '\033[93m'
 
 #variable setups
 quit = False
-nightmareLock = True
-nightmareTiersUnlocked = []
+nightmareLock = False
+nightmareTiersUnlocked = ["1", "2", "3", "4", "5"]
 #GAMELOOP START
 while quit == False:
     #map choice (START)
@@ -50,7 +50,7 @@ while quit == False:
         size = 1000
         print(f"{magenta}Titanic {reset}selected")
     elif sizeChoice == "9":
-        size = 3000
+        size = 2000 #High Score: 8000
         print(f"{magenta}Celestial {reset}selected")
     else:
         size = 20

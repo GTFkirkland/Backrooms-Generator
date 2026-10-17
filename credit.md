@@ -1,1 +1,0 @@
-Most of the UI by @BraydenHammit on Github
